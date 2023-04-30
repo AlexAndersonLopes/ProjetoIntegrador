@@ -78,7 +78,8 @@ public class ProdutoDAO {
                 pro.setCodigoBarras(rs.getString("codigoBarras"));
                 pro.setProduto(rs.getString("produto"));
                 pro.setMarca(rs.getString("marca"));
-                pro.setPreco(rs.getDouble("preco"));
+                Double pre = rs.getDouble("preco");
+                pro.setPreco(pre);
                 pro.setQuantidade(rs.getInt("quantidade"));
                 lista.add(pro);
             }

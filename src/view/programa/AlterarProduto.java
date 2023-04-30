@@ -27,7 +27,7 @@ public class AlterarProduto extends javax.swing.JFrame {
     public AlterarProduto() {
         initComponents();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,7 +61,7 @@ public class AlterarProduto extends javax.swing.JFrame {
 
         jTextField5.setText("jTextField1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
@@ -222,26 +222,27 @@ public class AlterarProduto extends javax.swing.JFrame {
 
         barraAlterar.addTab("Alterar Produtos", jPanel3);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         tabela.setBackground(new java.awt.Color(255, 255, 255));
-        tabela.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tabela.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         tabela.setForeground(new java.awt.Color(0, 0, 0));
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Produto", "Codigo de Barras", "Marca", "Preço", "Quantidade"
             }
         ));
+        tabela.setToolTipText("");
+        tabela.setFillsViewportHeight(true);
         tabela.setGridColor(new java.awt.Color(255, 255, 255));
         tabela.setName(""); // NOI18N
-        tabela.setSelectionBackground(new java.awt.Color(51, 51, 51));
+        tabela.setRowHeight(30);
+        tabela.setRowMargin(2);
+        tabela.setSelectionBackground(new java.awt.Color(255, 255, 0));
+        tabela.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tabela.setShowGrid(false);
         tabela.setShowHorizontalLines(true);
         tabela.setShowVerticalLines(true);
@@ -251,6 +252,11 @@ public class AlterarProduto extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tabela);
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabela.getColumnModel().getColumn(0).setPreferredWidth(200);
+            tabela.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tabela.getColumnModel().getColumn(4).setPreferredWidth(50);
+        }
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -287,8 +293,8 @@ public class AlterarProduto extends javax.swing.JFrame {
                     .addComponent(txtNomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btPesquisarPorNome))
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         barraAlterar.addTab("Pesquisar Produto por nome", jPanel2);
@@ -297,8 +303,8 @@ public class AlterarProduto extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(barraAlterar)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,9 +322,8 @@ public class AlterarProduto extends javax.swing.JFrame {
         ProdutoDAO dao = new ProdutoDAO();
         List<Produto> lista = dao.procurarAlterar(txtCodigoBarras.getText());
         DefaultTableModel dados = new DefaultTableModel();
-
-        for (Produto p : lista) {
-
+        
+        for (Produto p : lista) {      
             txtProduto.setText(p.getProduto());
             txtMarca.setText(p.getMarca());
             String precoFormatted = String.format("%.2f", p.getPreco());
@@ -331,12 +336,20 @@ public class AlterarProduto extends javax.swing.JFrame {
         Produto prod = new Produto();
         ProdutoDAO dao = new ProdutoDAO();
         int qtd;
-        qtd = Integer.parseInt(quantidadeTotal.getText()) + Integer.parseInt(txtAcrescentar.getText());
-
+        
+        if (!txtAcrescentar.getText().isEmpty()) {
+            qtd = Integer.parseInt(quantidadeTotal.getText()) + Integer.parseInt(txtAcrescentar.getText());
+        } else {
+            txtAcrescentar.setText("0");
+            qtd = Integer.parseInt(quantidadeTotal.getText()) + Integer.parseInt(txtAcrescentar.getText());
+        }
+        
         prod.setProduto(txtProduto.getText());
         prod.setMarca(txtMarca.getText());
+        
         try {
             prod.setPreco(Double.parseDouble(txtPreco.getText()));
+            
         } catch (NumberFormatException e) {
             String[] options = {"Fechar"};
             int selectedOption = JOptionPane.showOptionDialog(null, "Falha ao tentar alterar os dados do Produto", "ERRO",
@@ -344,7 +357,7 @@ public class AlterarProduto extends javax.swing.JFrame {
         }
         prod.setQuantidade(qtd);
         prod.setCodigoBarras(txtCodigoBarras.getText());
-
+        
         dao.alterarProduto(prod);
         limparTela();
     }//GEN-LAST:event_btAtualizarActionPerformed
@@ -354,7 +367,7 @@ public class AlterarProduto extends javax.swing.JFrame {
         List<Produto> lista = dao.listaProdutosPorNome(txtNomeProduto.getText());
         DefaultTableModel tab = (DefaultTableModel) tabela.getModel();
         tab.setNumRows(0);
-
+        
         for (Produto a : lista) {
             tab.addRow(new Object[]{
                 a.getProduto(),
@@ -375,17 +388,18 @@ public class AlterarProduto extends javax.swing.JFrame {
         quantidadeTotal.setText(tabela.getValueAt(tabela.getSelectedRow(), 4).toString());
         limparTabela();
     }//GEN-LAST:event_tabelaMouseClicked
-
-    private void limparTela(){
+    
+    private void limparTela() {
         txtProduto.setText("");
         txtCodigoBarras.setText("");
         txtMarca.setText("");
         txtPreco.setText("");
         quantidadeTotal.setText("");
-        txtAcrescentar.setText("");   
+        txtAcrescentar.setText("");
     }
     
-    private void limparTabela(){
+    private void limparTabela() {
+        txtNomeProduto.setText("");
         DefaultTableModel tab = (DefaultTableModel) tabela.getModel();
         tab.setNumRows(0);
     }
