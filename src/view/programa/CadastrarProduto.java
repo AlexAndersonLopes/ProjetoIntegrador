@@ -82,6 +82,7 @@ public class CadastrarProduto extends javax.swing.JFrame {
         txtQuantidade.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
         jButton1.setText("Voltar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,6 +91,7 @@ public class CadastrarProduto extends javax.swing.JFrame {
         });
 
         jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/OK.png"))); // NOI18N
         jButton2.setText("Cadastrar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,11 +134,11 @@ public class CadastrarProduto extends javax.swing.JFrame {
                         .addComponent(txtQuantidade)))
                 .addContainerGap(236, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(103, 103, 103)
+                .addGap(55, 55, 55)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addGap(123, 123, 123))
+                .addGap(81, 81, 81))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
