@@ -7,9 +7,17 @@ import javax.swing.Timer;
 public class MenuPrincipal extends javax.swing.JFrame {
 
     private Timer timer;
+    protected String nomes;
+
+    public String getNomes() {
+        return nomes;
+    }
+    
+    
     
     public MenuPrincipal(String nome) {
         initComponents();
+        nomes=nome;
         nomeUsuario.setText("Operador: " + nome);
         timer = new Timer(1000, e -> mostrarData());
         timer.start();
