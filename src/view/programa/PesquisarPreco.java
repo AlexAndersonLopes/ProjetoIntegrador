@@ -1,16 +1,24 @@
 package view.programa;
 
 import dao.ProdutoDAO;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
+import model.Usuario;
 
 public class PesquisarPreco extends javax.swing.JFrame {
     
-    public PesquisarPreco() {
+    private static Usuario usuario;
+    private String codigoBarras;
+    
+    public PesquisarPreco(Usuario usuario) {
         initComponents();
+        this.usuario = usuario;
+        txtPesquisarCodigoBarras.requestFocus();
     }
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -32,7 +40,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtNomeProduto = new javax.swing.JTextField();
         btPesquisar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -69,10 +77,17 @@ public class PesquisarPreco extends javax.swing.JFrame {
 
         jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Codigo de Barras:");
 
-        btPesquisarCB.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtPesquisarCodigoBarras.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtPesquisarCodigoBarras.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPesquisarCodigoBarrasKeyPressed(evt);
+            }
+        });
+
+        btPesquisarCB.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btPesquisarCB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/procurar.png"))); // NOI18N
         btPesquisarCB.setText("Pesquisar");
         btPesquisarCB.addActionListener(new java.awt.event.ActionListener() {
@@ -82,8 +97,10 @@ public class PesquisarPreco extends javax.swing.JFrame {
         });
 
         produto.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        produto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         preco.setFont(new java.awt.Font("Arial Black", 1, 36)); // NOI18N
+        preco.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -92,18 +109,20 @@ public class PesquisarPreco extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtPesquisarCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(preco, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(322, 322, 322)
-                        .addComponent(btPesquisarCB))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(produto, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)
-                        .addComponent(preco, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(129, 129, 129)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtPesquisarCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(208, 208, 208)
+                                .addComponent(btPesquisarCB)))))
                 .addContainerGap(148, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -115,7 +134,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
                     .addComponent(txtPesquisarCodigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addComponent(btPesquisarCB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(produto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(preco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -137,7 +156,6 @@ public class PesquisarPreco extends javax.swing.JFrame {
             }
         ));
         tabela.setFillsViewportHeight(true);
-        tabela.setPreferredSize(new java.awt.Dimension(300, 0));
         tabela.setRequestFocusEnabled(false);
         tabela.setRowHeight(30);
         tabela.setShowGrid(true);
@@ -194,12 +212,12 @@ public class PesquisarPreco extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Nome do Produto", jPanel3);
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
-        jButton1.setText("Voltar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btVoltar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
+        btVoltar.setText("Voltar");
+        btVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btVoltarActionPerformed(evt);
             }
         });
 
@@ -210,8 +228,8 @@ public class PesquisarPreco extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTabbedPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -221,8 +239,8 @@ public class PesquisarPreco extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1)
                 .addGap(8, 8, 8)
-                .addComponent(jButton1)
-                .addGap(19, 19, 19))
+                .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -243,12 +261,13 @@ public class PesquisarPreco extends javax.swing.JFrame {
             int selectedOption = JOptionPane.showOptionDialog(null, "Produto não encontrado no Banco de Dados", "ERRO",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
         }
+        codigoBarras = txtPesquisarCodigoBarras.getText();
         txtPesquisarCodigoBarras.setText("");
     }//GEN-LAST:event_btPesquisarCBActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     private void txtNomeProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeProdutoKeyReleased
         ProdutoDAO dao = new ProdutoDAO();
@@ -279,9 +298,18 @@ public class PesquisarPreco extends javax.swing.JFrame {
                 a.getPreco(),
                 a.getCodigoBarras()
             });
-        }
+        }        
         txtNomeProduto.setText("");
     }//GEN-LAST:event_btPesquisarActionPerformed
+
+    private void txtPesquisarCodigoBarrasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarCodigoBarrasKeyPressed
+        produto.setText("");
+        preco.setText("");
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            java.awt.event.ActionEvent evts = null;
+            btPesquisarCBActionPerformed(evts);
+        }
+    }//GEN-LAST:event_txtPesquisarCodigoBarrasKeyPressed
      
     
     public static void main(String args[]) {
@@ -311,7 +339,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PesquisarPreco().setVisible(true);
+                new PesquisarPreco(usuario).setVisible(true);
             }
         });
     }
@@ -319,7 +347,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btPesquisarCB;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

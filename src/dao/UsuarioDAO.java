@@ -97,5 +97,28 @@ public class UsuarioDAO {
         }
         return sb.toString();
     }
+    
+    
+    //Procurar usuario
+    public Usuario mostrarFuncionario(String nome) {
+        try {
+            Usuario usuario = new Usuario();
+            String sql = "select * from cadUsuarios where nome like ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nome);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                usuario.setId(rs.getInt("id"));
+                usuario.setUsuario(rs.getString("nome"));
+                usuario.setSenha(rs.getString("senha"));        
+            }
+            return usuario;
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao encontrar o usuario no BD: " + e);
+            return null;
+        }
+    }
 
 }

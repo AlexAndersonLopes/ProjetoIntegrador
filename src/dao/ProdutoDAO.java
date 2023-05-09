@@ -174,5 +174,35 @@ public class ProdutoDAO {
             return null;
         }
     }
-    
+
+    //PROCURAR POR CODIGO DE BARRAS TODOS OS DADOS DO PRODUTO PESQUISADO
+    public Produto procurarPorCodigoBarras(String codigo) {
+        try {
+            Produto pro = new Produto();
+            String sql = "SELECT * FROM produtos WHERE codigoBarras = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, codigo);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                pro.setCodigoBarras(rs.getString("codigoBarras"));
+                pro.setProduto(rs.getString("produto"));
+                pro.setMarca(rs.getString("marca"));
+                Double pre = rs.getDouble("preco");
+                pro.setPreco(pre);
+                pro.setQuantidade(rs.getInt("quantidade"));
+            }
+
+            if (pro.getCodigoBarras().isEmpty()) {
+                return null;
+            } else {
+                return pro;
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado");
+            return null;
+        }
+    }
+
 }
