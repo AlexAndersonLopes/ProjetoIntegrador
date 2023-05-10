@@ -49,7 +49,7 @@ public class Entrar extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Entrar:");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/logi.png"))); // NOI18N

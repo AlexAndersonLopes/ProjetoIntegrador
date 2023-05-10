@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
@@ -41,6 +42,7 @@ public class Venda extends javax.swing.JFrame {
         initComponents();
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
+        txtCodigoBarras.requestFocus();
     }
 
     @SuppressWarnings("unchecked")
@@ -80,7 +82,7 @@ public class Venda extends javax.swing.JFrame {
 
         jButton6.setText("Finalizar Venda Debito");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btCancelarVenda.setBackground(new java.awt.Color(204, 0, 0));
         btCancelarVenda.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -372,7 +374,7 @@ public class Venda extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -383,7 +385,7 @@ public class Venda extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jDesktopPane1)
         );
 
         pack();
@@ -391,7 +393,7 @@ public class Venda extends javax.swing.JFrame {
 
     private void btFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarCompraActionPerformed
         Pagamento pag = new Pagamento(nomes, total);
-        pag.setLocationRelativeTo(null);
+        pag.setExtendedState(JFrame.MAXIMIZED_BOTH);
         pag.setVisible(true);
         pag.txtCpf.requestFocus();
         pag.mostrarTotal.setText(String.valueOf(df.format(total)));  //LEVAR O TOTAL PARA PAGAMENTO   
@@ -440,7 +442,7 @@ public class Venda extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoBarrasKeyPressed
 
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
-        PesquisarPreco pesquisa = new PesquisarPreco(usuario);
+        PesquisarPreco pesquisa = new PesquisarPreco(nomes);
         pesquisa.setLocationRelativeTo(null);
         pesquisa.setVisible(true);
         pesquisa.pack();

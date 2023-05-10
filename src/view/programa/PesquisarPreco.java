@@ -1,6 +1,7 @@
 package view.programa;
 
 import dao.ProdutoDAO;
+import dao.UsuarioDAO;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -12,10 +13,25 @@ public class PesquisarPreco extends javax.swing.JFrame {
     
     private static Usuario usuario;
     private String codigoBarras;
+    private UsuarioDAO usuarioDAO;
+    private String nomes;
     
-    public PesquisarPreco(Usuario usuario) {
+    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    
+    private Usuario mostrarFuncionario(String nome){
+        usuarioDAO = new UsuarioDAO();
+        usuario = usuarioDAO.mostrarFuncionario(nome);
+        return usuario;
+    }
+    
+    public PesquisarPreco(String nome) {
         initComponents();
         this.usuario = usuario;
+        usuario = mostrarFuncionario(nome);
+        nomes = usuario.getUsuario();
         txtPesquisarCodigoBarras.requestFocus();
     }
     
@@ -339,7 +355,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PesquisarPreco(usuario).setVisible(true);
+                new PesquisarPreco("nome").setVisible(true);
             }
         });
     }
