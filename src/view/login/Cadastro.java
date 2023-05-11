@@ -114,6 +114,11 @@ public class Cadastro extends javax.swing.JFrame {
                 btCadastrarActionPerformed(evt);
             }
         });
+        btCadastrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btCadastrarKeyPressed(evt);
+            }
+        });
 
         btVoltar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
@@ -121,6 +126,11 @@ public class Cadastro extends javax.swing.JFrame {
         btVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btVoltarActionPerformed(evt);
+            }
+        });
+        btVoltar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btVoltarKeyPressed(evt);
             }
         });
 
@@ -242,26 +252,20 @@ public class Cadastro extends javax.swing.JFrame {
                     btVoltarActionPerformed(evt);
 
                 } else {
-                    String[] options = {"Fechar"};
-                    int selectedOption = JOptionPane.showOptionDialog(null, "As senhas não são iguais", "ERRO",
-                            JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+                    JOptionPane.showMessageDialog(null, "As Senhas não são iguais");
                     txtSenha.setText("");
                     txtConfirmarSenha.setText("");
                     txtSenha.requestFocus();
                 }
             } else {
-                String[] options = {"Fechar"};
-                int selectedOption = JOptionPane.showOptionDialog(null, "Esse usuário já está cadastrado", "ERRO",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+               JOptionPane.showMessageDialog(null, "Este Usuario já está Cadastrado");
                 txtUsuario.setText("");
                 txtSenha.setText("");
                 txtConfirmarSenha.setText("");
 
             }
         } else {
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Insira um usuário", "ERRO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+            JOptionPane.showMessageDialog(null, "Insira um Usuario");
             txtUsuario.requestFocus();
         }
     }//GEN-LAST:event_btCadastrarActionPerformed
@@ -295,13 +299,13 @@ public class Cadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_mostrarConfirmarSenhaActionPerformed
 
     private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_DOWN) {
             txtSenha.requestFocus();
         }
     }//GEN-LAST:event_txtUsuarioKeyPressed
 
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_DOWN) {
             txtConfirmarSenha.requestFocus();
         }
         if (evt.getKeyCode() == KeyEvent.VK_UP) {
@@ -317,7 +321,36 @@ public class Cadastro extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_UP) {
             txtSenha.requestFocus();
         }
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            btCadastrar.requestFocus();
+        }
     }//GEN-LAST:event_txtConfirmarSenhaKeyPressed
+
+    private void btCadastrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btCadastrarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            java.awt.event.ActionEvent evts = null;
+            btCadastrarActionPerformed(evts);
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtConfirmarSenha.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
+            btVoltar.requestFocus();
+        }
+    }//GEN-LAST:event_btCadastrarKeyPressed
+
+    private void btVoltarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btVoltarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            java.awt.event.ActionEvent evts = null;
+            btVoltarActionPerformed(evts);
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtConfirmarSenha.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_RIGHT) {
+            btCadastrar.requestFocus();
+        }
+    }//GEN-LAST:event_btVoltarKeyPressed
 
     private boolean procurarUsuario(String b) {
         UsuarioDAO dao = new UsuarioDAO();

@@ -6,13 +6,14 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Usuario;
-import view.programa.MenuPrincipal;
+import util.Janelas;
 
 
 public class Entrar extends javax.swing.JFrame {
+    
+    private static Janelas janelas = new Janelas();
 
 
     public Entrar() {
@@ -93,6 +94,11 @@ public class Entrar extends javax.swing.JFrame {
                 btVoltarActionPerformed(evt);
             }
         });
+        btVoltar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btVoltarKeyPressed(evt);
+            }
+        });
 
         btEntrar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/entrar.png"))); // NOI18N
@@ -100,6 +106,11 @@ public class Entrar extends javax.swing.JFrame {
         btEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btEntrarActionPerformed(evt);
+            }
+        });
+        btEntrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btEntrarKeyPressed(evt);
             }
         });
 
@@ -192,10 +203,7 @@ public class Entrar extends javax.swing.JFrame {
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         dispose();
-        Login login = new Login();
-        login.setLocationRelativeTo(null);
-        login.setVisible(true);
-        login.pack();
+        janelas.irLogin();
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void mostrarSenha1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarSenha1ActionPerformed
@@ -211,14 +219,10 @@ public class Entrar extends javax.swing.JFrame {
         
         if(validarUsuarioSenha(nome, new String(txtSenha.getPassword()))){
             dispose();
-            MenuPrincipal menu = new MenuPrincipal(nome);
-            menu.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            menu.setVisible(true);
+            janelas.irMenuPrincipal(nome);
         }
         else{
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Usuario ou Senha Invalido", "ERRO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+            JOptionPane.showMessageDialog(null, "Usuario ou Senha Invalido");
         }
     }//GEN-LAST:event_btEntrarActionPerformed
 
@@ -236,7 +240,36 @@ public class Entrar extends javax.swing.JFrame {
             java.awt.event.ActionEvent evts = null;
             btEntrarActionPerformed(evts);
         }
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            btEntrar.requestFocus();
+        }
     }//GEN-LAST:event_txtSenhaKeyPressed
+
+    private void btEntrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btEntrarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            java.awt.event.ActionEvent evts = null;
+            btEntrarActionPerformed(evts);
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtSenha.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
+            btVoltar.requestFocus();
+        }
+    }//GEN-LAST:event_btEntrarKeyPressed
+
+    private void btVoltarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btVoltarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            java.awt.event.ActionEvent evts = null;
+            btVoltarActionPerformed(evts);
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            txtSenha.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_RIGHT) {
+            btEntrar.requestFocus();
+        }
+    }//GEN-LAST:event_btVoltarKeyPressed
 
     private boolean validarUsuarioSenha(String b, String c) {
     UsuarioDAO dao = new UsuarioDAO();

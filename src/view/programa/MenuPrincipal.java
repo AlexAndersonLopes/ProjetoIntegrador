@@ -1,21 +1,22 @@
 package view.programa;
 
+import util.Janelas;
 import dao.UsuarioDAO;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.Timer;
 import model.Usuario;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    protected  Usuario usuario;
+    protected Usuario usuario;
     private UsuarioDAO usuarioDAO;
     private Timer timer;
     protected String nomes;
+    private static Janelas janelas = new Janelas();
 
     public String getNomes() {
         return nomes;
@@ -24,17 +25,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public Usuario getUsuario() {
         return usuario;
     }
-    
-    
-    
-    private Usuario mostrarFuncionario(String nome){
+
+    private Usuario mostrarFuncionario(String nome) {
         usuarioDAO = new UsuarioDAO();
         usuario = usuarioDAO.mostrarFuncionario(nome);
         return usuario;
     }
-    
-    
-    
+
     public MenuPrincipal(String nome) {
         initComponents();
         usuario = mostrarFuncionario(nome);
@@ -44,7 +41,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         nomes = usuario.getUsuario();
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -255,38 +251,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        CadastrarProduto cadastrar = new CadastrarProduto();
-        cadastrar.setLocationRelativeTo(null);
-        cadastrar.setVisible(true);
-        cadastrar.pack();
+        janelas.irCadastrarProduto();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        CadastrarProduto cadastrar = new CadastrarProduto();
-        cadastrar.setLocationRelativeTo(null);
-        cadastrar.setVisible(true);
-        cadastrar.pack();
+        janelas.irCadastrarProduto();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void PesquisarPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PesquisarPrecoActionPerformed
-        PesquisarPreco pesquisar = new PesquisarPreco(nomes);
-        pesquisar.setLocationRelativeTo(null);
-        pesquisar.setVisible(true);
-        pesquisar.pack();
+        janelas.irPesquisarPreco(nomes);
     }//GEN-LAST:event_PesquisarPrecoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        AlterarProduto alterar = new AlterarProduto();
-        alterar.setLocationRelativeTo(null);
-        alterar.setVisible(true);
-        alterar.pack();
+        janelas.irAlterarProduto();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void VendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VendaActionPerformed
-        Venda venda = new Venda(nomes);
-        venda.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        venda.setVisible(true);
-        venda.pack();        
+        janelas.irVenda1(nomes);
     }//GEN-LAST:event_VendaActionPerformed
 
     private void mostrarData() {
@@ -295,7 +276,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         String dataFormatada = agora.format(dtf);
         dataHoje.setText("Data: " + agora.format(dtf));
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -304,7 +285,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                    if ("windows".equals(info.getName())) {
+                if ("windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

@@ -1,5 +1,6 @@
 package view.programa;
 
+import util.Janelas;
 import dao.ProdutoDAO;
 import dao.UsuarioDAO;
 import java.awt.Graphics;
@@ -9,7 +10,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
@@ -17,22 +17,22 @@ import model.Usuario;
 
 public class Venda extends javax.swing.JFrame {
 
-    private MenuPrincipal menu;
     private Usuario usuario;
     private UsuarioDAO usuarioDAO;
+    private Produto pro = new Produto();
+    private ProdutoDAO dao = new ProdutoDAO();
     double subTotal = 0.0, total;
     int qtd = 0, item = 0, linha = -1;
     private DecimalFormat df = new DecimalFormat("#.##");
-    DefaultTableModel listaVenda;
-    private Produto pro = new Produto();
-    private ProdutoDAO dao = new ProdutoDAO();
-    private String nomes;
-    
+    DefaultTableModel listaVenda; 
+    private String nomes, codigos;
+    private static Janelas janelas = new Janelas();
+
     public Usuario getUsuario() {
         return usuario;
     }
-    
-    private Usuario mostrarFuncionario(String nome){
+
+    private Usuario mostrarFuncionario(String nome) {
         usuarioDAO = new UsuarioDAO();
         usuario = usuarioDAO.mostrarFuncionario(nome);
         return usuario;
@@ -43,6 +43,26 @@ public class Venda extends javax.swing.JFrame {
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
         txtCodigoBarras.requestFocus();
+    }
+
+    public Venda(String nome, String codigo) {
+        initComponents();
+        usuario = mostrarFuncionario(nome);
+        nomes = usuario.getUsuario();
+        codigos = codigo;
+        txtCodigoBarras.setText(codigos);
+        KeyEvent evt = new KeyEvent(txtCodigoBarras, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, '\n');
+        txtCodigoBarrasKeyPressed(evt);
+    }
+    
+    public void atualizarCarrinho(String nome, String codigo){
+        usuario = mostrarFuncionario(nome);
+        nomes = usuario.getUsuario();
+        codigos = codigo;
+        txtCodigoBarras.setText(codigos);
+
+        KeyEvent evt = new KeyEvent(txtCodigoBarras, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, '\n');
+        txtCodigoBarrasKeyPressed(evt);
     }
 
     @SuppressWarnings("unchecked")
@@ -392,12 +412,7 @@ public class Venda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarCompraActionPerformed
-        Pagamento pag = new Pagamento(nomes, total);
-        pag.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        pag.setVisible(true);
-        pag.txtCpf.requestFocus();
-        pag.mostrarTotal.setText(String.valueOf(df.format(total)));  //LEVAR O TOTAL PARA PAGAMENTO   
-        pag.pack();
+        janelas.irPagamento(nomes, total);
     }//GEN-LAST:event_btFinalizarCompraActionPerformed
 
     private void btExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirItemActionPerformed
@@ -442,10 +457,7 @@ public class Venda extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoBarrasKeyPressed
 
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
-        PesquisarPreco pesquisa = new PesquisarPreco(nomes);
-        pesquisa.setLocationRelativeTo(null);
-        pesquisa.setVisible(true);
-        pesquisa.pack();
+        janelas.irPesquisarPreco(nomes);
     }//GEN-LAST:event_btConsultarActionPerformed
 
     private void mostrarDadosNaTela() {

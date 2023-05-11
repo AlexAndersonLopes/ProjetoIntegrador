@@ -277,9 +277,7 @@ public class CadastrarProduto extends javax.swing.JFrame {
                     txtProduto.requestFocus();
                 }
             } else {
-                String[] options = {"Fechar"};
-                int selectedOption = JOptionPane.showOptionDialog(null, "Este produto já está cadastrado", "ERRO",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+                JOptionPane.showMessageDialog(null, "Erro. Este Produto já está cadastrado");
                 limparTela();
             }
 

@@ -1,5 +1,6 @@
 package view.programa;
 
+import util.Janelas;
 import dao.ProdutoDAO;
 import dao.UsuarioDAO;
 import java.awt.event.KeyEvent;
@@ -10,32 +11,30 @@ import model.Produto;
 import model.Usuario;
 
 public class PesquisarPreco extends javax.swing.JFrame {
-    
+
     private static Usuario usuario;
     private String codigoBarras;
     private UsuarioDAO usuarioDAO;
-    private String nomes;
-    
-    
+    private String nomes, codigos;
+    private static Janelas janelas = new Janelas();
+
     public Usuario getUsuario() {
         return usuario;
     }
-    
-    private Usuario mostrarFuncionario(String nome){
+
+    private Usuario mostrarFuncionario(String nome) {
         usuarioDAO = new UsuarioDAO();
         usuario = usuarioDAO.mostrarFuncionario(nome);
         return usuario;
     }
-    
+
     public PesquisarPreco(String nome) {
         initComponents();
-        this.usuario = usuario;
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
         txtPesquisarCodigoBarras.requestFocus();
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -43,7 +42,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        barra = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtPesquisarCodigoBarras = new javax.swing.JTextField();
@@ -57,6 +56,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
         txtNomeProduto = new javax.swing.JTextField();
         btPesquisar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
+        brComprar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -91,7 +91,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        barra.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Codigo de Barras:");
@@ -157,7 +157,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
                 .addGap(102, 102, 102))
         );
 
-        jTabbedPane1.addTab("Codigo de Barras", jPanel2);
+        barra.addTab("Codigo de Barras", jPanel2);
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -175,6 +175,11 @@ public class PesquisarPreco extends javax.swing.JFrame {
         tabela.setRequestFocusEnabled(false);
         tabela.setRowHeight(30);
         tabela.setShowGrid(true);
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
         if (tabela.getColumnModel().getColumnCount() > 0) {
             tabela.getColumnModel().getColumn(0).setPreferredWidth(200);
@@ -226,7 +231,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jTabbedPane1.addTab("Nome do Produto", jPanel3);
+        barra.addTab("Nome do Produto", jPanel3);
 
         btVoltar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/voltar.png"))); // NOI18N
@@ -237,25 +242,38 @@ public class PesquisarPreco extends javax.swing.JFrame {
             }
         });
 
+        brComprar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        brComprar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/comp.png"))); // NOI18N
+        brComprar.setText("Comprar");
+        brComprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                brComprarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(barra)
             .addGroup(layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(brComprar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
+                .addComponent(barra)
                 .addGap(8, 8, 8)
-                .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(brComprar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -265,18 +283,17 @@ public class PesquisarPreco extends javax.swing.JFrame {
     private void btPesquisarCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarCBActionPerformed
         ProdutoDAO dao = new ProdutoDAO();
         List<Produto> lista = dao.procurarAlterar(txtPesquisarCodigoBarras.getText());
-        
+
         for (Produto p : lista) {
             produto.setText(p.getProduto());
             String precoFormatted = String.format("%.2f", p.getPreco());
             preco.setText("R$ " + precoFormatted);
         }
-        
+
         if (dao.procurarAlterar(txtPesquisarCodigoBarras.getText()).isEmpty()) {
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Produto não encontrado no Banco de Dados", "ERRO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+            JOptionPane.showMessageDialog(null, "Produto não encontrado no Banco de Ddados");
         }
+        codigos = txtPesquisarCodigoBarras.getText(); ///////////////
         codigoBarras = txtPesquisarCodigoBarras.getText();
         txtPesquisarCodigoBarras.setText("");
     }//GEN-LAST:event_btPesquisarCBActionPerformed
@@ -290,7 +307,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
         List<Produto> lista = dao.listaProdutosPorNome(txtNomeProduto.getText());
         DefaultTableModel tab = (DefaultTableModel) tabela.getModel();
         tab.setNumRows(0);
-        
+
         for (Produto a : lista) {
             tab.addRow(new Object[]{
                 a.getProduto(),
@@ -302,11 +319,11 @@ public class PesquisarPreco extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNomeProdutoKeyReleased
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
-         ProdutoDAO dao = new ProdutoDAO();
+        ProdutoDAO dao = new ProdutoDAO();
         List<Produto> lista = dao.listaProdutosPorNome("");
         DefaultTableModel tab = (DefaultTableModel) tabela.getModel();
         tab.setNumRows(0);
-        
+
         for (Produto a : lista) {
             tab.addRow(new Object[]{
                 a.getProduto(),
@@ -314,7 +331,7 @@ public class PesquisarPreco extends javax.swing.JFrame {
                 a.getPreco(),
                 a.getCodigoBarras()
             });
-        }        
+        }
         txtNomeProduto.setText("");
     }//GEN-LAST:event_btPesquisarActionPerformed
 
@@ -326,8 +343,19 @@ public class PesquisarPreco extends javax.swing.JFrame {
             btPesquisarCBActionPerformed(evts);
         }
     }//GEN-LAST:event_txtPesquisarCodigoBarrasKeyPressed
-     
-    
+
+    private void brComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brComprarActionPerformed
+        dispose();
+        janelas.irVenda2(nomes, codigos);
+    }//GEN-LAST:event_brComprarActionPerformed
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        barra.setSelectedIndex(0);
+        txtPesquisarCodigoBarras.setText(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+        codigos = txtPesquisarCodigoBarras.getText();
+        txtPesquisarCodigoBarrasKeyPressed(new KeyEvent(txtPesquisarCodigoBarras, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, '\n'));
+    }//GEN-LAST:event_tabelaMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -361,6 +389,8 @@ public class PesquisarPreco extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane barra;
+    private javax.swing.JButton brComprar;
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btPesquisarCB;
     private javax.swing.JButton btVoltar;
@@ -372,7 +402,6 @@ public class PesquisarPreco extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel preco;
     private javax.swing.JLabel produto;
     private javax.swing.JTable tabela;

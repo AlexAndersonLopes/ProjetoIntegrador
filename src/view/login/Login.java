@@ -2,14 +2,19 @@ package view.login;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
+import util.Janelas;
 
 
 public class Login extends javax.swing.JFrame {
+    
+    private static Janelas janelas = new Janelas();
 
 
     public Login() {
         initComponents();
+        btEntrar.requestFocus();
     }
 
     @SuppressWarnings("unchecked")
@@ -39,6 +44,11 @@ public class Login extends javax.swing.JFrame {
                 btEntrarActionPerformed(evt);
             }
         });
+        btEntrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btEntrarKeyPressed(evt);
+            }
+        });
 
         btCadastrar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cadastrar.png"))); // NOI18N
@@ -46,6 +56,11 @@ public class Login extends javax.swing.JFrame {
         btCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btCadastrarActionPerformed(evt);
+            }
+        });
+        btCadastrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btCadastrarKeyPressed(evt);
             }
         });
 
@@ -110,19 +125,33 @@ public class Login extends javax.swing.JFrame {
 
     private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
         dispose();
-        Entrar entrar = new Entrar();
-        entrar.setLocationRelativeTo(null);
-        entrar.setVisible(true);
-        entrar.pack();
+        janelas.irEntrar();
     }//GEN-LAST:event_btEntrarActionPerformed
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         dispose();
-        Cadastro cadastro = new Cadastro();
-        cadastro.setLocationRelativeTo(null);
-        cadastro.setVisible(true);
-        cadastro.pack();
+        janelas.irCadastro();
     }//GEN-LAST:event_btCadastrarActionPerformed
+
+    private void btEntrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btEntrarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            java.awt.event.ActionEvent evts = null;
+            btEntrarActionPerformed(evts);
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            btCadastrar.requestFocus();
+        }
+    }//GEN-LAST:event_btEntrarKeyPressed
+
+    private void btCadastrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btCadastrarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            java.awt.event.ActionEvent evts = null;
+            btCadastrarActionPerformed(evts);
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            btEntrar.requestFocus();
+        }
+    }//GEN-LAST:event_btCadastrarKeyPressed
 
 
     public static void main(String args[]) {

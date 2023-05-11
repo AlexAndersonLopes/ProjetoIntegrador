@@ -425,9 +425,7 @@ public class AlterarProduto extends javax.swing.JFrame {
             prod.setPreco(Double.parseDouble(txtPreco.getText()));
 
         } catch (NumberFormatException e) {
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Falha ao tentar alterar os dados do Produto", "ERRO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+            JOptionPane.showMessageDialog(null, "Falha ao tentar alterar os dados do Produto");
         }
         prod.setQuantidade(qtd);
         prod.setCodigoBarras(txtCodigoBarras.getText());

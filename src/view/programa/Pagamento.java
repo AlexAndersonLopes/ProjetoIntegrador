@@ -22,12 +22,12 @@ public class Pagamento extends javax.swing.JFrame {
     DefaultTableModel listaPagamento;
     int linha = -1;
     private String nomes;
-    
+
     public Usuario getUsuario() {
         return usuario;
     }
-    
-    private Usuario mostrarFuncionario(String nome){
+
+    private Usuario mostrarFuncionario(String nome) {
         usuarioDAO = new UsuarioDAO();
         usuario = usuarioDAO.mostrarFuncionario(nome);
         return usuario;
@@ -41,7 +41,6 @@ public class Pagamento extends javax.swing.JFrame {
         this.descricao = descricao;
         tipoPagamento.setText(descricao);
     }
-    
 
     public Pagamento(String nome) {
         initComponents();
@@ -510,8 +509,8 @@ public class Pagamento extends javax.swing.JFrame {
                         String formattedTroco = df.format(troco);
                         mostrarTroco.setText(formattedTroco);
                         evt.consume();
-                        
-                        if(tipoPagamento.getText().equals("Dinheiro") && valor > total || valor > troco){
+
+                        if (tipoPagamento.getText().equals("Dinheiro") && valor > total || valor > troco) {
                             double val;
                             val = valor - troco;
                             valor = val;
@@ -570,7 +569,7 @@ public class Pagamento extends javax.swing.JFrame {
 
     private void txtCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-           txtCpf.setEditable(false);
+            txtCpf.setEditable(false);
         }
     }//GEN-LAST:event_txtCpfKeyPressed
 
