@@ -1,16 +1,26 @@
 package view.programa;
 
+import dao.ProdutoDAO;
+import dao.TipoPagamentoDAO;
 import dao.UsuarioDAO;
+import dao.VendaProdutosDAO;
+import dao.VendasDAO;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Produto;
+import model.TipoPagamento;
 import model.Usuario;
+import model.VendaProdutos;
+import model.Vendas;
+import util.Janelas;
 
 public class Pagamento extends javax.swing.JFrame {
 
@@ -19,9 +29,10 @@ public class Pagamento extends javax.swing.JFrame {
     private String descricao;
     DecimalFormat df = new DecimalFormat("#.##");
     double troco, valor, total, soma = 0;
-    DefaultTableModel listaPagamento;
+    protected DefaultTableModel listaPagamento, itemVenda;
     int linha = -1;
     private String nomes;
+    private Janelas janelas = new Janelas();
 
     public Usuario getUsuario() {
         return usuario;
@@ -49,12 +60,13 @@ public class Pagamento extends javax.swing.JFrame {
         txtCpf.requestFocus();
     }
 
-    public Pagamento(String nome, double total) {
+    public Pagamento(String nome, double total, DefaultTableModel lista) {
         initComponents();
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
         mostrarTotal.setText(String.valueOf(total));
         this.total = total;
+        itemVenda = lista;
         txtCpf.requestFocus();
     }
 
@@ -273,6 +285,7 @@ public class Pagamento extends javax.swing.JFrame {
             }
         });
         tabelaPagamento.setFillsViewportHeight(true);
+        tabelaPagamento.setRowHeight(30);
         tabelaPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelaPagamentoMouseClicked(evt);
@@ -423,8 +436,9 @@ public class Pagamento extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addComponent(btFinalizarPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(145, 145, 145)
+                        .addGap(131, 131, 131)
                         .addComponent(jLabel5))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -462,7 +476,52 @@ public class Pagamento extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btFinalizarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarPagamentoActionPerformed
+        if (soma >= total) {
+            Vendas vendas = new Vendas();
+            java.util.Date dataJava = Calendar.getInstance().getTime();
+            java.sql.Date dataSql = new java.sql.Date(dataJava.getTime());
 
+            vendas.setData(dataSql);
+            vendas.setUsuario(usuario);
+            vendas.setTotal(total);
+            vendas.setCpfCliente(txtCpf.getText());
+
+            VendasDAO dao = new VendasDAO();
+            dao.efetuarVenda(vendas); //Cadastrar na tabela cadVendas           
+            vendas.setId(dao.vendaAtual());//Pegar o ID da venda atual
+
+            for (int i = 0; i < itemVenda.getRowCount(); i++) {
+                VendaProdutosDAO vpDAO = new VendaProdutosDAO();
+                ProdutoDAO pDAO = new ProdutoDAO();
+                VendaProdutos vp = new VendaProdutos();
+                Produto pro = new Produto();
+                pro = pDAO.idProduto(itemVenda.getValueAt(i, 1).toString());
+
+                vp.setQuantidade(Integer.parseInt(itemVenda.getValueAt(i, 3).toString()));
+                vp.setSubTotal(Double.parseDouble(itemVenda.getValueAt(i, 4).toString()));
+                vp.setProduto(pro);
+                vp.setVendas(vendas);
+
+                vpDAO.listaItemVenda(vp);
+            }
+
+            for (int i = 0; i < listaPagamento.getRowCount(); i++) {
+                TipoPagamentoDAO tDAO = new TipoPagamentoDAO();
+                TipoPagamento tipo = new TipoPagamento();
+
+                tipo.setDescricao(listaPagamento.getValueAt(i, 0).toString());
+                tipo.setValor(Double.parseDouble(listaPagamento.getValueAt(i, 1).toString()));
+                tipo.setVenda(vendas);
+
+                tDAO.tipoPagamento(tipo);
+            }
+
+            this.dispose();
+            janelas.irVenda3(nomes);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Pagamento incompleto, falta R$ " + troco);
+        }
     }//GEN-LAST:event_btFinalizarPagamentoActionPerformed
 
     private void btDinheiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDinheiroActionPerformed
@@ -510,10 +569,12 @@ public class Pagamento extends javax.swing.JFrame {
                         mostrarTroco.setText(formattedTroco);
                         evt.consume();
 
-                        if (tipoPagamento.getText().equals("Dinheiro") && valor > total || valor > troco) {
-                            double val;
-                            val = valor - troco;
-                            valor = val;
+                        if (tipoPagamento.getText().equals("Dinheiro") /*&& valor > total || valor > troco*/) {
+                            if (valor > total || valor > troco) {
+                                double val;
+                                val = valor - troco;
+                                valor = val;
+                            }
                         }
 
                         if (soma > total && !tipoPagamento.getText().equals("Dinheiro")) {

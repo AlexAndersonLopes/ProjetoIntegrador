@@ -205,4 +205,32 @@ public class ProdutoDAO {
         }
     }
 
+    //Pesquisar id do produto
+    public Produto idProduto(String nome) {
+
+        try {
+            Produto pro = new Produto();
+            String sql = "select * from produtos where produto like ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nome);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                pro.setId(rs.getInt("id"));
+                pro.setCodigoBarras(rs.getString("codigoBarras"));
+                pro.setProduto(rs.getString("produto"));
+                pro.setMarca(rs.getString("marca"));
+                Double pre = rs.getDouble("preco");
+                pro.setPreco(pre);
+                pro.setQuantidade(rs.getInt("quantidade"));
+            }
+            return pro;
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado");
+            return null;
+        }
+
+    }
+
 }

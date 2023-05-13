@@ -21,17 +21,18 @@ public class VendasDAO {
     //EFETUAR UMA VENDA
     public void efetuarVenda(Vendas vendas) {
         try {
-            String sql = "insert into cadVendas(data, total, cadUsuarios) values(?,?,?)";
+            String sql = "insert into cadVendas(data, cadUsuarios, total, cpf) values(?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ps.setDate(1, (Date) vendas.getData());
-            ps.setDouble(2, vendas.getTotal());
-            ps.setInt(3, vendas.getUsuario().getId());
+            ps.setInt(2, vendas.getUsuario().getId());
+            ps.setDouble(3, vendas.getTotal());
+            ps.setString(4, vendas.getCpfCliente());
 
             ps.execute();
             ps.close();
 
-            JOptionPane.showMessageDialog(null, "Venda cadastrada no Banco de Dados");
+            JOptionPane.showMessageDialog(null, "Venda Efetuada com Sucesso");
 
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Venda NÃO cadastrada no Banco de Dados" + e);
@@ -59,8 +60,5 @@ public class VendasDAO {
         }
 
     }
-    
-    
-    
 
 }

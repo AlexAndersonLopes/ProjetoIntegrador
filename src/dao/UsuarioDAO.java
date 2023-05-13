@@ -70,13 +70,15 @@ public class UsuarioDAO {
             String sql = "select nome, senha from cadUsuarios where nome = ? and senha = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nome);
-            ps.setString(2, md5(senha)); 
+            ps.setString(2, md5(senha));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Usuario user = new Usuario();
-                user.setUsuario(rs.getString("nome"));
-                user.setSenha(rs.getString("senha"));
-                lista.add(user);
+                if (rs.getString("nome").equals(nome) && rs.getString("senha").equals(md5(senha))) {
+                    user.setUsuario(rs.getString("nome"));
+                    user.setSenha(rs.getString("senha"));
+                    lista.add(user);
+                }
             }
             return lista;
 
@@ -97,8 +99,7 @@ public class UsuarioDAO {
         }
         return sb.toString();
     }
-    
-    
+
     //Procurar usuario
     public Usuario mostrarFuncionario(String nome) {
         try {
@@ -107,11 +108,11 @@ public class UsuarioDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nome);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 usuario.setId(rs.getInt("id"));
                 usuario.setUsuario(rs.getString("nome"));
-                usuario.setSenha(rs.getString("senha"));        
+                usuario.setSenha(rs.getString("senha"));
             }
             return usuario;
 

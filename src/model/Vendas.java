@@ -1,13 +1,22 @@
 package model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Vendas {
-    
+
     private int id;
     private Date data;
-    private double total;
     private Usuario usuario;
+    private double total;
+    private String cpfCliente;
+
+    public String getCpfCliente() {
+        return cpfCliente;
+    }
+
+    public void setCpfCliente(String cpfCliente) {
+        this.cpfCliente = cpfCliente;
+    }
 
     public double getTotal() {
         return total;
@@ -16,7 +25,6 @@ public class Vendas {
     public void setTotal(double total) {
         this.total = total;
     }
-    
 
     public int getId() {
         return id;
@@ -41,6 +49,5 @@ public class Vendas {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-  
-    
+
 }

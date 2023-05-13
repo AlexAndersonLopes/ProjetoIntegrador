@@ -1,7 +1,7 @@
 package model;
 
 public class Produto {
-    
+
     private int id;
     private String produto;
     private String marca;
@@ -57,5 +57,4 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
-    
 }

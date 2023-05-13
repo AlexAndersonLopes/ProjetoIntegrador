@@ -1,7 +1,7 @@
 package model;
 
 public class Usuario {
-    
+
     private int id;
     private String usuario;
     private String senha;
@@ -29,5 +29,5 @@ public class Usuario {
     public void setId(int id) {
         this.id = id;
     }
-    
+
 }

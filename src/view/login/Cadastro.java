@@ -258,11 +258,10 @@ public class Cadastro extends javax.swing.JFrame {
                     txtSenha.requestFocus();
                 }
             } else {
-               JOptionPane.showMessageDialog(null, "Este Usuario já está Cadastrado");
+                JOptionPane.showMessageDialog(null, "Este Usuario já está Cadastrado");
                 txtUsuario.setText("");
                 txtSenha.setText("");
                 txtConfirmarSenha.setText("");
-
             }
         } else {
             JOptionPane.showMessageDialog(null, "Insira um Usuario");

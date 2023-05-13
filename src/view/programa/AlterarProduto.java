@@ -11,7 +11,6 @@ import model.Produto;
 
 public class AlterarProduto extends javax.swing.JFrame {
 
-    
     public AlterarProduto() {
         initComponents();
     }

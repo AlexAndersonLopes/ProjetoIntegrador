@@ -3,8 +3,8 @@ package model;
 public class VendaProdutos {
 
     private int id;
-    private double subTotal;
     private int quantidade;
+    private double subTotal;
     private Produto produto;
     private Vendas vendas;
 
@@ -47,5 +47,5 @@ public class VendaProdutos {
     public void setVendas(Vendas vendas) {
         this.vendas = vendas;
     }
-  
+
 }

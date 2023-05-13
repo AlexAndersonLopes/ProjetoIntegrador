@@ -10,17 +10,14 @@ import javax.swing.JOptionPane;
 import model.Usuario;
 import util.Janelas;
 
-
 public class Entrar extends javax.swing.JFrame {
-    
-    private static Janelas janelas = new Janelas();
 
+    private static Janelas janelas = new Janelas();
 
     public Entrar() {
         initComponents();
         txtUsuario.requestFocus();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -216,12 +213,11 @@ public class Entrar extends javax.swing.JFrame {
 
     private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
         String nome = txtUsuario.getText();
-        
-        if(validarUsuarioSenha(nome, new String(txtSenha.getPassword()))){
+
+        if (validarUsuarioSenha(nome, new String(txtSenha.getPassword()))) {
             dispose();
             janelas.irMenuPrincipal(nome);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usuario ou Senha Invalido");
         }
     }//GEN-LAST:event_btEntrarActionPerformed
@@ -229,7 +225,7 @@ public class Entrar extends javax.swing.JFrame {
     private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             txtSenha.requestFocus();
-        }        
+        }
     }//GEN-LAST:event_txtUsuarioKeyPressed
 
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
@@ -272,10 +268,10 @@ public class Entrar extends javax.swing.JFrame {
     }//GEN-LAST:event_btVoltarKeyPressed
 
     private boolean validarUsuarioSenha(String b, String c) {
-    UsuarioDAO dao = new UsuarioDAO();
-    List<Usuario> lista = dao.validarUsuarioSenha(b, c);
-    return !lista.isEmpty();
-}
+        UsuarioDAO dao = new UsuarioDAO();
+        List<Usuario> lista = dao.validarUsuarioSenha(b, c);
+        return !lista.isEmpty();
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

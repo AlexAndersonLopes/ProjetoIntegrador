@@ -24,7 +24,7 @@ public class Venda extends javax.swing.JFrame {
     double subTotal = 0.0, total;
     int qtd = 0, item = 0, linha = -1;
     private DecimalFormat df = new DecimalFormat("#.##");
-    DefaultTableModel listaVenda; 
+    DefaultTableModel listaVenda;
     private String nomes, codigos;
     private static Janelas janelas = new Janelas();
 
@@ -54,8 +54,8 @@ public class Venda extends javax.swing.JFrame {
         KeyEvent evt = new KeyEvent(txtCodigoBarras, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, '\n');
         txtCodigoBarrasKeyPressed(evt);
     }
-    
-    public void atualizarCarrinho(String nome, String codigo){
+
+    public void atualizarCarrinho(String nome, String codigo) {
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
         codigos = codigo;
@@ -109,6 +109,11 @@ public class Venda extends javax.swing.JFrame {
         btCancelarVenda.setForeground(new java.awt.Color(0, 0, 0));
         btCancelarVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cancelar.png"))); // NOI18N
         btCancelarVenda.setText("Cancelar Venda");
+        btCancelarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarVendaActionPerformed(evt);
+            }
+        });
 
         btConsultar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/procurar.png"))); // NOI18N
@@ -284,6 +289,11 @@ public class Venda extends javax.swing.JFrame {
         }
 
         txtQuantidade.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtQuantidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtQuantidadeKeyPressed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel15.setText("Quantidade:");
@@ -412,7 +422,7 @@ public class Venda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarCompraActionPerformed
-        janelas.irPagamento(nomes, total);
+        janelas.irPagamento(nomes, total, listaVenda);
     }//GEN-LAST:event_btFinalizarCompraActionPerformed
 
     private void btExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirItemActionPerformed
@@ -451,6 +461,9 @@ public class Venda extends javax.swing.JFrame {
             if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                 mostrarDadosNaTela();
             }
+            if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+                txtQuantidade.requestFocus();
+            }
         } catch (NullPointerException e) {
             limparTela();
         }
@@ -459,6 +472,24 @@ public class Venda extends javax.swing.JFrame {
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
         janelas.irPesquisarPreco(nomes);
     }//GEN-LAST:event_btConsultarActionPerformed
+
+    private void txtQuantidadeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantidadeKeyPressed
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                java.awt.event.ActionEvent evts = null;
+                btAdicionarActionPerformed(evts);
+                txtQuantidade.setText("");
+                txtCodigoBarras.requestFocus();
+            }
+        } catch (NullPointerException e) {
+        }
+    }//GEN-LAST:event_txtQuantidadeKeyPressed
+
+    private void btCancelarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarVendaActionPerformed
+        dispose();
+        janelas.irVenda1(nomes);
+        JOptionPane.showMessageDialog(null, "Venda Cancelada com Sucesso");
+    }//GEN-LAST:event_btCancelarVendaActionPerformed
 
     private void mostrarDadosNaTela() {
         pro = dao.procurarPorCodigoBarras(txtCodigoBarras.getText());
@@ -479,6 +510,9 @@ public class Venda extends javax.swing.JFrame {
         txtQuantidade.setText("");
         item++;
 
+        //Fazer a lista rolar automaticamente
+        tabela.scrollRectToVisible(tabela.getCellRect(tabela.getRowCount() - 1, 0, true));
+
         listaVenda = (DefaultTableModel) tabela.getModel();
         listaVenda.addRow(new Object[]{
             item,
@@ -486,6 +520,12 @@ public class Venda extends javax.swing.JFrame {
             BigDecimal.valueOf(pro.getPreco()).setScale(2, RoundingMode.HALF_UP).doubleValue(),
             qtd,
             subTotal,});
+
+        //Focar na ultima linha da tabela
+        int lastRow = tabela.getRowCount() - 1;
+        int lastCol = tabela.getColumnCount() - 1;
+        tabela.changeSelection(lastRow, lastCol, false, false);
+
     }
 
     private void limparTela() {

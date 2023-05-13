@@ -6,11 +6,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import util.Janelas;
 
-
 public class Login extends javax.swing.JFrame {
-    
-    private static Janelas janelas = new Janelas();
 
+    private static Janelas janelas = new Janelas();
 
     public Login() {
         initComponents();
@@ -152,7 +150,6 @@ public class Login extends javax.swing.JFrame {
             btEntrar.requestFocus();
         }
     }//GEN-LAST:event_btCadastrarKeyPressed
-
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

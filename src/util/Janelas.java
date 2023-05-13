@@ -2,6 +2,7 @@ package util;
 
 import java.text.DecimalFormat;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 import view.login.Cadastro;
 import view.login.Entrar;
 import view.login.Login;
@@ -18,11 +19,11 @@ public class Janelas {
     private static CadastrarProduto cadastrar;
     private PesquisarPreco pesquisar;
     private static AlterarProduto alterar;
-    private static Pagamento pag;
+    private Pagamento pag;
     private static MenuPrincipal menu;
-    private static Login login;
-    private static Entrar entrar;
-    private static Cadastro cadastro;
+    private Login login;
+    private Entrar entrar;
+    private Cadastro cadastro;
 
     private DecimalFormat df = new DecimalFormat("#.##");
 
@@ -45,6 +46,14 @@ public class Janelas {
         }
     }
 
+    public void irVenda3(String nome) {
+        venda.dispose();
+        venda = new Venda(nome);
+        venda.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        venda.setVisible(true);
+        venda.pack();
+    }
+
     public void irCadastrarProduto() {
         if (cadastrar == null) {
             cadastrar = new CadastrarProduto();
@@ -58,12 +67,12 @@ public class Janelas {
     }
 
     public void irPesquisarPreco(String nomes) {
-            pesquisar = new PesquisarPreco(nomes);
-            pesquisar.setLocationRelativeTo(null);
-            pesquisar.setVisible(true);
-            pesquisar.pack();
-            pesquisar.setState(JFrame.NORMAL);
-            pesquisar.setVisible(true);
+        pesquisar = new PesquisarPreco(nomes);
+        pesquisar.setLocationRelativeTo(null);
+        pesquisar.setVisible(true);
+        pesquisar.pack();
+        pesquisar.setState(JFrame.NORMAL);
+        pesquisar.setVisible(true);
     }
 
     public void irAlterarProduto() {
@@ -78,16 +87,11 @@ public class Janelas {
         }
     }
 
-    public void irPagamento(String nomes, double total) {
-        if (pag == null) {
-            pag = new Pagamento(nomes, total);
-            pag.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            pag.setVisible(true);
-            pag.pack();
-        } else {
-            pag.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            pag.setVisible(true);
-        }
+    public void irPagamento(String nomes, double total, DefaultTableModel lista) {
+        pag = new Pagamento(nomes, total, lista);
+        pag.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        pag.setVisible(true);
+        pag.pack();
     }
 
     public void irMenuPrincipal(String nome) {
@@ -102,39 +106,24 @@ public class Janelas {
     }
 
     public void irLogin() {
-        if (login == null) {
-            login = new Login();
-            login.setLocationRelativeTo(null);
-            login.setVisible(true);
-            login.pack();
-        } else {
-            login.setState(JFrame.NORMAL);
-            login.setVisible(true);
-        }
+        login = new Login();
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        login.pack();
     }
 
     public void irEntrar() {
-        if (login == null) {
-            entrar = new Entrar();
-            entrar.setLocationRelativeTo(null);
-            entrar.setVisible(true);
-            entrar.pack();
-        } else {
-            entrar.setState(JFrame.NORMAL);
-            entrar.setVisible(true);
-        }
+        entrar = new Entrar();
+        entrar.setLocationRelativeTo(null);
+        entrar.setVisible(true);
+        entrar.pack();
     }
 
     public void irCadastro() {
-        if (login == null) {
-            cadastro = new Cadastro();
-            cadastro.setLocationRelativeTo(null);
-            cadastro.setVisible(true);
-            cadastro.pack();
-        } else {
-            cadastro.setState(JFrame.NORMAL);
-            cadastro.setVisible(true);
-        }
+        cadastro = new Cadastro();
+        cadastro.setLocationRelativeTo(null);
+        cadastro.setVisible(true);
+        cadastro.pack();
     }
 
 }
