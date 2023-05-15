@@ -245,12 +245,13 @@ public class CadastrarProduto extends javax.swing.JFrame {
                         if (!txtPreco.getText().isEmpty()) {
                             if (!txtQuantidade.getText().isEmpty()) {
                                 if (!txtCodigoBarras.getText().isEmpty()) {
-
+                                    String precoStr = txtPreco.getText().replace(",", ".");
+                                    
                                     Produto pro = new Produto();
                                     pro.setProduto(txtProduto.getText());
                                     pro.setMarca(txtMarca.getText());
                                     pro.setCodigoBarras(txtCodigoBarras.getText());
-                                    pro.setPreco(Double.valueOf(txtPreco.getText()));
+                                    pro.setPreco(Double.valueOf(precoStr));
                                     pro.setQuantidade(Integer.valueOf(txtQuantidade.getText()));
 
                                     ProdutoDAO dao = new ProdutoDAO();

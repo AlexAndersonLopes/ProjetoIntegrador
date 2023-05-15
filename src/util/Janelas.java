@@ -8,6 +8,7 @@ import view.login.Entrar;
 import view.login.Login;
 import view.programa.AlterarProduto;
 import view.programa.CadastrarProduto;
+import view.programa.FechamentoCaixa;
 import view.programa.MenuPrincipal;
 import view.programa.Pagamento;
 import view.programa.PesquisarPreco;
@@ -24,10 +25,15 @@ public class Janelas {
     private Login login;
     private Entrar entrar;
     private Cadastro cadastro;
+    private static FechamentoCaixa caixa;
+    
 
     private DecimalFormat df = new DecimalFormat("#.##");
 
     public void irVenda1(String nome) {
+        if (venda != null) {
+            venda.dispose();
+        }
         venda = new Venda(nome);
         venda.setExtendedState(JFrame.MAXIMIZED_BOTH);
         venda.setVisible(true);
@@ -124,6 +130,13 @@ public class Janelas {
         cadastro.setLocationRelativeTo(null);
         cadastro.setVisible(true);
         cadastro.pack();
+    }
+
+    public void irFechamentoCaixa(String nome) {
+        caixa = new FechamentoCaixa(nome);
+        caixa.setLocationRelativeTo(null);
+        caixa.setVisible(true);
+        caixa.pack();
     }
 
 }

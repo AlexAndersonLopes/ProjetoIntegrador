@@ -1,5 +1,6 @@
 package view.programa;
 
+import dao.FechamentoCaixaDAO;
 import dao.ProdutoDAO;
 import dao.TipoPagamentoDAO;
 import dao.UsuarioDAO;
@@ -15,6 +16,7 @@ import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.FechamentosCaixa;
 import model.Produto;
 import model.TipoPagamento;
 import model.Usuario;
@@ -33,6 +35,7 @@ public class Pagamento extends javax.swing.JFrame {
     int linha = -1;
     private String nomes;
     private Janelas janelas = new Janelas();
+    private Venda venda = new Venda(nomes);
 
     public Usuario getUsuario() {
         return usuario;
@@ -514,6 +517,17 @@ public class Pagamento extends javax.swing.JFrame {
                 tipo.setVenda(vendas);
 
                 tDAO.tipoPagamento(tipo);
+            }
+            
+            for (int i = 0; i < listaPagamento.getRowCount(); i++) {
+                FechamentoCaixaDAO fDAO = new FechamentoCaixaDAO();
+                FechamentosCaixa caixa = new FechamentosCaixa();
+                
+                caixa.setDescricao(listaPagamento.getValueAt(i, 0).toString());
+                caixa.setValor(Double.parseDouble(listaPagamento.getValueAt(i, 1).toString()));
+                caixa.setUsuario(usuario);
+                
+                fDAO.cadastrarFechamentoCaixa(caixa);
             }
 
             this.dispose();
