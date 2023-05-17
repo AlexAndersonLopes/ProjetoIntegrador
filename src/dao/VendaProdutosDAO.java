@@ -4,9 +4,9 @@ import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import jdbc.ConnectFactory;
 import model.VendaProdutos;
+import util.Mensagens;
 
 public class VendaProdutosDAO {
 
@@ -31,7 +31,7 @@ public class VendaProdutosDAO {
             ps.close();
 
         } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, "Os Itens não foram cadastrados no Banco de Dados" + e);
+            Mensagens.mensagemErro("Os Itens não foram cadastrados no Banco de Dados");
         }
     }
 

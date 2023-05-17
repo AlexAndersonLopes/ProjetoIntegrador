@@ -5,12 +5,12 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import jdbc.ConnectFactory;
 import model.Usuario;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import util.Mensagens;
 
 public class UsuarioDAO {
 
@@ -25,40 +25,43 @@ public class UsuarioDAO {
     //CADASTRAR USUARIO
     public void cadastrarUsuario(Usuario a) {
         //CRIAR O COMANDO SQL
-        String sql = "insert into cadUsuarios(nome,senha) "
-                + "values(?,?)";
+        String sql = "insert into cadUsuarios(nome, cpf, email, senha) "
+                + "values(?,?,?,?)";
 
         try ( //CONECTAR O BD E ORGANIZAR O COMANDO SQL
                  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, a.getUsuario());
-            ps.setString(2, a.getSenha());
+            ps.setString(2, a.getCpf());
+            ps.setString(3, a.getEmail());
+            ps.setString(4, a.getSenha());
 
             //EXECUTAR O COMANDO SQL
             ps.execute();
             ps.close();
-            JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso!!!");
+            Mensagens.mensagemExito("Usuario cadastrado com sucesso!!!");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao salvar no banco de dados: " + e);
+            Mensagens.mensagemErro("Erro ao salvar no banco de dados");
         }
     }
 
     //Procurar usuario
-    public List<Usuario> procurarUsuario(String nome) {
+    public List<Usuario> procurarUsuarios(String cpf, String nome) {
         try {
             List<Usuario> lista = new ArrayList<>();
-            String sql = "select nome from cadUsuarios where nome like ?";
+            String sql = "SELECT * FROM cadUsuarios WHERE cpf LIKE ? OR nome LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, nome);
+            ps.setString(1, "%" + cpf + "%");
+            ps.setString(2, "%" + nome + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Usuario user = new Usuario();
-                user.setUsuario(sql);
+                user.setCpf(rs.getString("cpf"));
+                user.setUsuario(rs.getString("nome"));
                 lista.add(user);
             }
             return lista;
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar o usuario no BD: " + e);
+        } catch (SQLException e) {
+            Mensagens.mensagemErro("Erro ao buscar os usuários no BD");
             return null;
         }
     }
@@ -82,8 +85,8 @@ public class UsuarioDAO {
             }
             return lista;
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar o usuario no BD: " + e);
+        } catch (NoSuchAlgorithmException | SQLException e) {
+            Mensagens.mensagemErro("Erro ao buscar o usuario no BD");
             return null;
         }
     }
@@ -112,12 +115,14 @@ public class UsuarioDAO {
             while (rs.next()) {
                 usuario.setId(rs.getInt("id"));
                 usuario.setUsuario(rs.getString("nome"));
+                usuario.setCpf(rs.getString("cpf"));
+                usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
             }
             return usuario;
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao encontrar o usuario no BD: " + e);
+            Mensagens.mensagemErro("Erro ao encontrar o usuario no BD");
             return null;
         }
     }

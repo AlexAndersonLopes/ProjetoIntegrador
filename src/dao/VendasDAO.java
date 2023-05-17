@@ -7,8 +7,8 @@ import jdbc.ConnectFactory;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import model.Vendas;
+import util.Mensagens;
 
 public class VendasDAO {
 
@@ -32,10 +32,10 @@ public class VendasDAO {
             ps.execute();
             ps.close();
 
-            JOptionPane.showMessageDialog(null, "Venda Efetuada com Sucesso");
+            Mensagens.mensagemExito("Venda Efetuada com Sucesso");
 
         } catch (HeadlessException | SQLException e) {
-            JOptionPane.showMessageDialog(null, "Venda NÃO cadastrada no Banco de Dados" + e);
+            Mensagens.mensagemErro("Venda NÃO cadastrada no Banco de Dados");
         }
     }
 

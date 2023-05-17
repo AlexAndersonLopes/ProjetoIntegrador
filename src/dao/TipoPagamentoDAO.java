@@ -5,7 +5,7 @@ import jdbc.ConnectFactory;
 import model.TipoPagamento;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import util.Mensagens;
 
 public class TipoPagamentoDAO {
 
@@ -29,7 +29,7 @@ public class TipoPagamentoDAO {
             ps.close();
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Pagamento não cadastrado no Banco de dados" + e);
+            Mensagens.mensagemErro("Pagamento não cadastrado no Banco de dados");
         }
     }
 

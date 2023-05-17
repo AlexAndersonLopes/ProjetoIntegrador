@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
+import util.Mensagens;
 
 public class AlterarProduto extends javax.swing.JFrame {
 
@@ -396,7 +396,7 @@ public class AlterarProduto extends javax.swing.JFrame {
             prod.setPreco(Double.parseDouble(precoStr));
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Falha ao tentar alterar os dados do Produto");
+            Mensagens.mensagemErro("Falha ao tentar alterar os dados do Produto");
         }
         prod.setQuantidade(qtd);
         prod.setCodigoBarras(txtCodigoBarras.getText());

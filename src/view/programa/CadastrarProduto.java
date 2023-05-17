@@ -6,9 +6,9 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
+import util.Mensagens;
 
 public class CadastrarProduto extends javax.swing.JFrame {
 
@@ -258,31 +258,31 @@ public class CadastrarProduto extends javax.swing.JFrame {
                                     dao.cadastrarProduto(pro);
                                     limparTela();
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "O campo Codigo de Barras não pode ser vazio");
+                                    Mensagens.mensagemAlerta("O campo Codigo de Barras não pode ser vazio");
                                     txtCodigoBarras.requestFocus();
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null, "O campo Quantidade não pode ser vazio");
+                                Mensagens.mensagemAlerta("O campo Quantidade não pode ser vazio");
                                 txtQuantidade.requestFocus();
                             }
                         } else {
-                            JOptionPane.showMessageDialog(null, "O campo Preço não pode ser vazio");
+                            Mensagens.mensagemAlerta("O campo Preço não pode ser vazio");
                             txtPreco.requestFocus();
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "O campo Marca não pode ser vazio");
+                        Mensagens.mensagemAlerta("O campo Marca não pode ser vazio");
                         txtMarca.requestFocus();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "O campo Produto não pode ser vazio");
+                    Mensagens.mensagemAlerta("O campo Produto não pode ser vazio");
                     txtProduto.requestFocus();
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Erro. Este Produto já está cadastrado");
+                Mensagens.mensagemErro("Este Produto já está cadastrado");
                 limparTela();
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

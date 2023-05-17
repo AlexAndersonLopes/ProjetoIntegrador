@@ -5,15 +5,14 @@ import dao.ProdutoDAO;
 import dao.UsuarioDAO;
 import java.awt.event.KeyEvent;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 import model.Usuario;
+import util.Mensagens;
 
 public class PesquisarPreco extends javax.swing.JFrame {
 
     private static Usuario usuario;
-    private String codigoBarras;
     private UsuarioDAO usuarioDAO;
     private String nomes, codigos;
     private static Janelas janelas = new Janelas();
@@ -291,10 +290,12 @@ public class PesquisarPreco extends javax.swing.JFrame {
         }
 
         if (dao.procurarAlterar(txtPesquisarCodigoBarras.getText()).isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Produto não encontrado no Banco de Ddados");
+            Mensagens.mensagemErro("Produto não encontrado no Banco de Dados");
         }
-        codigos = txtPesquisarCodigoBarras.getText(); ///////////////
-        codigoBarras = txtPesquisarCodigoBarras.getText();
+
+        if (!txtPesquisarCodigoBarras.getText().isEmpty()) {
+            codigos = txtPesquisarCodigoBarras.getText(); //
+        }
         txtPesquisarCodigoBarras.setText("");
     }//GEN-LAST:event_btPesquisarCBActionPerformed
 
@@ -345,8 +346,14 @@ public class PesquisarPreco extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPesquisarCodigoBarrasKeyPressed
 
     private void brComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brComprarActionPerformed
-        dispose();
-        janelas.irVenda2(nomes, codigos);
+        try {
+            if (!codigos.equals("")) {
+                dispose();
+                janelas.irVenda2(nomes, codigos);
+            }
+        } catch (Exception e) {
+            Mensagens.mensagemErro("Selecione um produto para Comprar");
+        }
     }//GEN-LAST:event_brComprarActionPerformed
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked

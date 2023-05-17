@@ -7,9 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import java.sql.*;
 import model.Usuario;
+import util.Mensagens;
 
 public class FechamentoCaixaDAO {
 
@@ -34,7 +34,7 @@ public class FechamentoCaixaDAO {
             ps.close();
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "ERRO ao cadastrar o Fechamento de Caixa");
+            Mensagens.mensagemErro("ERRO ao cadastrar o Fechamento de Caixa");
         }
     }
 
@@ -47,7 +47,7 @@ public class FechamentoCaixaDAO {
             ps.execute();
             ps.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "ERRO ao remover o Fechamento de Caixa");
+            Mensagens.mensagemErro("ERRO ao remover o Fechamento de Caixa");
         }
     }
 
@@ -70,7 +70,7 @@ public class FechamentoCaixaDAO {
             return lista;
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "ERRO ao acessar o Fechamento de Caixa no Banco de Dados");
+            Mensagens.mensagemErro("ERRO ao acessar o Fechamento de Caixa no Banco de Dados");
             return null;
         }
     }

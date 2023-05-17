@@ -70,6 +70,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         itemPesquisar = new javax.swing.JMenuItem();
         itemAlterar = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         jMenuItem2.setText("jMenuItem2");
@@ -238,6 +239,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         itemVenda.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemVenda.setText("Nova Venda");
+        itemVenda.setPreferredSize(new java.awt.Dimension(160, 30));
         itemVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemVendaActionPerformed(evt);
@@ -247,6 +249,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenuItem1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jMenuItem1.setText("Cadastrar Produto");
+        jMenuItem1.setPreferredSize(new java.awt.Dimension(160, 30));
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -256,6 +259,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         itemPesquisar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemPesquisar.setText("Pesquisar Preço");
+        itemPesquisar.setPreferredSize(new java.awt.Dimension(160, 30));
         itemPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemPesquisarActionPerformed(evt);
@@ -265,6 +269,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         itemAlterar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemAlterar.setText("Alterar Produto");
+        itemAlterar.setPreferredSize(new java.awt.Dimension(160, 30));
         itemAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemAlterarActionPerformed(evt);
@@ -273,6 +278,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu1.add(itemAlterar);
 
         jMenuBar1.add(jMenu1);
+
+        jMenu3.setText("Relatorios");
+        jMenu3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jMenuBar1.add(jMenu3);
 
         jMenu2.setText("Sobre");
         jMenu2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -379,6 +388,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;

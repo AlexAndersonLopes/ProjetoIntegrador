@@ -14,7 +14,6 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.FechamentosCaixa;
 import model.Produto;
@@ -23,6 +22,7 @@ import model.Usuario;
 import model.VendaProdutos;
 import model.Vendas;
 import util.Janelas;
+import util.Mensagens;
 
 public class Pagamento extends javax.swing.JFrame {
 
@@ -35,7 +35,6 @@ public class Pagamento extends javax.swing.JFrame {
     int linha = -1;
     private String nomes;
     private Janelas janelas = new Janelas();
-    private Venda venda = new Venda(nomes);
 
     public Usuario getUsuario() {
         return usuario;
@@ -534,7 +533,11 @@ public class Pagamento extends javax.swing.JFrame {
             janelas.irVenda3(nomes);
 
         } else {
-            JOptionPane.showMessageDialog(null, "Pagamento incompleto, falta R$ " + troco);
+            if(troco == 0){
+                Mensagens.mensagemAlerta("Pagamento incompleto, falta R$ " + total);
+            }if(troco > 0){
+                Mensagens.mensagemAlerta("Pagamento incompleto, falta R$ " + troco);
+            }       
         }
     }//GEN-LAST:event_btFinalizarPagamentoActionPerformed
 
@@ -592,7 +595,7 @@ public class Pagamento extends javax.swing.JFrame {
                         }
 
                         if (soma > total && !tipoPagamento.getText().equals("Dinheiro")) {
-                            JOptionPane.showMessageDialog(null, "Pagamento maior que o Total da Compra!");
+                            Mensagens.mensagemErro("Pagamento maior que o Total da Compra!");
                             soma = BigDecimal.valueOf(soma).subtract(BigDecimal.valueOf(valor)).setScale(2, RoundingMode.HALF_UP).doubleValue();
                             troco = BigDecimal.valueOf(Math.abs(total - soma)).setScale(2, RoundingMode.HALF_UP).doubleValue();
                             mostrarTroco.setText(df.format(troco));
@@ -607,11 +610,11 @@ public class Pagamento extends javax.swing.JFrame {
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Selecione o metodo de Pagamento");
+                Mensagens.mensagemAlerta("Selecione o metodo de Pagamento");
                 txtValor.setText("");
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Insira um valor valído");
+            Mensagens.mensagemErro("Insira um valor valído");
             txtValor.setText("");
         }
     }//GEN-LAST:event_txtValorKeyPressed
@@ -634,7 +637,7 @@ public class Pagamento extends javax.swing.JFrame {
             mostrarTroco.setText(df.format(valor));
             linha = -1;
         } else {
-            JOptionPane.showMessageDialog(null, "Selecione o pagamento que deseja excluír");
+            Mensagens.mensagemErro("Selecione o pagamento que deseja excluír");
         }
     }//GEN-LAST:event_btExcluirLinhaActionPerformed
 

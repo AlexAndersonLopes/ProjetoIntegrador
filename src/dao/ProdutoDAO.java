@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import model.Produto;
 import java.sql.*;
+import util.Mensagens;
 
 public class ProdutoDAO {
 
@@ -34,13 +34,11 @@ public class ProdutoDAO {
             ps.execute();
             ps.close();
 
-            JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!!!");
+            Mensagens.mensagemExito("Produto cadastrado com sucesso!!!");
             {
             }
         } catch (SQLException e) {
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Produto não Cadastrado no BD", "ERRO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+            Mensagens.mensagemErro("Produto não Cadastrado no BD");           
         }
     }
 
@@ -59,8 +57,8 @@ public class ProdutoDAO {
             }
             return lista;
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao procurar o produto no Sistema");
+        } catch (SQLException e) {
+            Mensagens.mensagemErro("Erro ao procurar o produto no Sistema");
             return null;
         }
     }
@@ -86,7 +84,7 @@ public class ProdutoDAO {
             return lista;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao procurar o produto no Sistema");
+            Mensagens.mensagemErro("Erro ao procurar o produto no Sistema");
             return null;
         }
     }
@@ -105,14 +103,10 @@ public class ProdutoDAO {
             ps.execute();
             ps.close();
 
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Alterado com sucesso!", "Produto Alterado",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+            Mensagens.mensagemExito("Produto Alterado com Sucesso!");
 
-        } catch (Exception e) {
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Erro ao Alterar o Produto", "ERRO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+        } catch (SQLException e) {
+            Mensagens.mensagemErro("Erro ao Alterar o Produto");
         }
 
     }
@@ -138,9 +132,7 @@ public class ProdutoDAO {
             return lista;
 
         } catch (SQLException e) {
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Falha ao tentar acessar a Lista de Produtos", "ERRO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+            Mensagens.mensagemErro("Falha ao tentar acessar a Lista de Produtos");
             return null;
         }
     }
@@ -168,9 +160,7 @@ public class ProdutoDAO {
             return lista;
 
         } catch (SQLException e) {
-            String[] options = {"Fechar"};
-            int selectedOption = JOptionPane.showOptionDialog(null, "Falha ao tentar acessar a Lista de Produtos", "ERRO",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+            Mensagens.mensagemErro("Falha ao tentar acessar a Lista de Produtos");
             return null;
         }
     }
@@ -199,8 +189,8 @@ public class ProdutoDAO {
                 return pro;
             }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Produto não encontrado");
+        } catch (SQLException e) {
+            Mensagens.mensagemErro("Produto não encontrado");
             return null;
         }
     }
@@ -226,8 +216,8 @@ public class ProdutoDAO {
             }
             return pro;
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Produto não encontrado");
+        } catch (SQLException e) {
+            Mensagens.mensagemErro("Produto não encontrado");
             return null;
         }
 

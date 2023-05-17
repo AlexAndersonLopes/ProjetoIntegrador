@@ -2,6 +2,8 @@ package jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import util.Mensagens;
 
 public class ConnectFactory {
 
@@ -17,8 +19,9 @@ public class ConnectFactory {
             String password = "123";
             Connection connection = DriverManager.getConnection(url, user, password);
             return connection;*/
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            Mensagens.mensagemErro("Erro ao tentar conectar no Banco de Dados!");
+            return null;
         }
     }
 

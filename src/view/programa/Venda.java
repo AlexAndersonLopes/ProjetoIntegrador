@@ -10,10 +10,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 import model.Usuario;
+import util.Mensagens;
 
 public class Venda extends javax.swing.JFrame {
 
@@ -119,6 +119,7 @@ public class Venda extends javax.swing.JFrame {
         btConsultar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/procurar.png"))); // NOI18N
         btConsultar.setText("Consultar Preço");
+        btConsultar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         btConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btConsultarActionPerformed(evt);
@@ -129,6 +130,7 @@ public class Venda extends javax.swing.JFrame {
         btExcluirItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/lixeira.png"))); // NOI18N
         btExcluirItem.setText("Excluír Ítem");
         btExcluirItem.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 0), 2));
+        btExcluirItem.setIconTextGap(10);
         btExcluirItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btExcluirItemActionPerformed(evt);
@@ -315,9 +317,12 @@ public class Venda extends javax.swing.JFrame {
         jLabel3.setText("Venda:");
         jLabel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        btConsultar1.setBackground(new java.awt.Color(204, 204, 255));
         btConsultar1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btConsultar1.setForeground(new java.awt.Color(0, 0, 0));
         btConsultar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fechamentoCaixa.png"))); // NOI18N
         btConsultar1.setText("Fechar Caixa");
+        btConsultar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 255), 2));
         btConsultar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btConsultar1ActionPerformed(evt);
@@ -453,7 +458,7 @@ public class Venda extends javax.swing.JFrame {
             }
             item = item - 1;
         } else {
-            JOptionPane.showMessageDialog(null, "Selecione uma linha para excluir");
+            Mensagens.mensagemErro("Selecione uma linha para ser Excluída!");
         }
     }//GEN-LAST:event_btExcluirItemActionPerformed
 
@@ -505,7 +510,7 @@ public class Venda extends javax.swing.JFrame {
     private void btCancelarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarVendaActionPerformed
         dispose();
         janelas.irVenda1(nomes);
-        JOptionPane.showMessageDialog(null, "Venda Cancelada com Sucesso");
+        Mensagens.mensagemExito("Venda Cancelada com Sucesso");
     }//GEN-LAST:event_btCancelarVendaActionPerformed
 
     private void btConsultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultar1ActionPerformed
@@ -563,7 +568,7 @@ public class Venda extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

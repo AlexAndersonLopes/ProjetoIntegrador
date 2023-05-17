@@ -6,9 +6,9 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import model.Usuario;
 import util.Janelas;
+import util.Mensagens;
 
 public class Entrar extends javax.swing.JFrame {
 
@@ -218,7 +218,7 @@ public class Entrar extends javax.swing.JFrame {
             dispose();
             janelas.irMenuPrincipal(nome);
         } else {
-            JOptionPane.showMessageDialog(null, "Usuario ou Senha Invalido");
+            Mensagens.mensagemErro("Usuario ou Senha Invalido");
         }
     }//GEN-LAST:event_btEntrarActionPerformed
 
