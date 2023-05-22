@@ -14,9 +14,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     protected Usuario usuario;
     private UsuarioDAO usuarioDAO;
-    private Timer timer;
+    private final Timer timer;
     protected String nomes;
-    private static Janelas janelas = new Janelas();
+    private static final Janelas janelas = new Janelas();
 
     public String getNomes() {
         return nomes;
@@ -46,6 +46,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jDesktopPane1 = new javax.swing.JDesktopPane(){
             ImageIcon icon = new ImageIcon(getClass().getResource("/Imagens/fundo.png"));
             Image image = icon.getImage();
@@ -64,16 +65,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         dataHoje = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemVenda = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         itemPesquisar = new javax.swing.JMenuItem();
         itemAlterar = new javax.swing.JMenuItem();
+        MenuTrocarUsuario = new javax.swing.JMenuItem();
+        menuSair = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         jMenuItem2.setText("jMenuItem2");
+
+        jMenuItem3.setText("jMenuItem3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,6 +173,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("<html> <div style=\"text-align:center;\">Versão de Teste para correções de Bugs. <br> Alex Lopes<br> alex91lopes@gmail.com <br>AGUARDE NOVAS FUNCIONALIDADES</html> </div> ");
 
+        jButton3.setText("Menu Relatorio");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         jDesktopPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Venda, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(PesquisarPreco, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -175,6 +188,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jButton3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -196,7 +210,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(86, 86, 86)
                         .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(103, 103, 103)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                                 .addComponent(PesquisarPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
@@ -218,15 +236,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
                             .addComponent(PesquisarPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Venda, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
-                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                                .addGap(122, 122, 122)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3)
+                                .addGap(114, 114, 114)))
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -277,9 +301,29 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(itemAlterar);
 
+        MenuTrocarUsuario.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        MenuTrocarUsuario.setText("Trocar Usuário");
+        MenuTrocarUsuario.setPreferredSize(new java.awt.Dimension(160, 30));
+        MenuTrocarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuTrocarUsuarioActionPerformed(evt);
+            }
+        });
+        jMenu1.add(MenuTrocarUsuario);
+
+        menuSair.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        menuSair.setText("Saír");
+        menuSair.setPreferredSize(new java.awt.Dimension(160, 30));
+        menuSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSairActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuSair);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu3.setText("Relatorios");
+        jMenu3.setText("Administração");
         jMenu3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jMenuBar1.add(jMenu3);
 
@@ -335,6 +379,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
         janelas.irAlterarProduto();
     }//GEN-LAST:event_itemAlterarActionPerformed
 
+    private void MenuTrocarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuTrocarUsuarioActionPerformed
+        this.dispose();
+        janelas.irLogin();
+    }//GEN-LAST:event_MenuTrocarUsuarioActionPerformed
+
+    private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSairActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_menuSairActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        janelas.irMenuRelatorios();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void mostrarData() {
         LocalDateTime agora = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy      HH:mm:ss");
@@ -375,6 +432,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MenuTrocarUsuario;
     private javax.swing.JButton PesquisarPreco;
     private javax.swing.JButton Venda;
     private javax.swing.JLabel dataHoje;
@@ -383,6 +441,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemVenda;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -392,8 +451,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JMenuItem menuSair;
     private javax.swing.JLabel nomeUsuario;
     // End of variables declaration//GEN-END:variables
 }

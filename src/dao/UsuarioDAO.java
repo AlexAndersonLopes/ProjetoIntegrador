@@ -126,5 +126,24 @@ public class UsuarioDAO {
             return null;
         }
     }
+    
+    //Mostrar todos usuarios cadastrados
+    public List<Usuario> procurarTodosUsuarios() {
+    try {
+        List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM cadUsuarios";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Usuario user = new Usuario();
+            user.setUsuario(rs.getString("nome"));
+            lista.add(user);
+        }
+        return lista;
+    } catch (SQLException e) {
+        Mensagens.mensagemErro("Erro ao buscar os usuários no BD");
+        return null;
+    }
+}
 
 }

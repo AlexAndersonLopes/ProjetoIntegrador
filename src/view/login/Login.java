@@ -8,11 +8,12 @@ import util.Janelas;
 
 public class Login extends javax.swing.JFrame {
 
-    private static Janelas janelas = new Janelas();
+    private static final Janelas janelas = new Janelas();
 
     public Login() {
         initComponents();
         btEntrar.requestFocus();
+        this.setTitle("Login de Usuário");
     }
 
     @SuppressWarnings("unchecked")

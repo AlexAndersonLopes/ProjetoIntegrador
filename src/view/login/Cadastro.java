@@ -325,7 +325,7 @@ public class Cadastro extends javax.swing.JFrame {
                         if (!consultarCPF(txtCPF.getText())) {
                             if (!txtEmail.getText().isEmpty() || !txtConfirmarEmail.getText().isEmpty()) {
                                 if (txtEmail.getText().equals(txtConfirmarEmail.getText())) {
-
+                                                                      
                                     user.setUsuario(txtUsuario.getText());
                                     user.setCpf(txtCPF.getText());
                                     user.setEmail(txtEmail.getText());
