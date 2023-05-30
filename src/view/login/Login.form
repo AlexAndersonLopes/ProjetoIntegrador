@@ -73,7 +73,7 @@
                   </Group>
                   <EmptySpace pref="80" max="32767" attributes="0"/>
                   <Component id="btEntrar" min="-2" pref="50" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                  <EmptySpace pref="41" max="32767" attributes="0"/>
                   <Component id="btCadastrar" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
               </Group>
@@ -90,6 +90,7 @@
               <Image iconType="3" name="/Imagens/entrar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Entrar"/>
+            <Property name="opaque" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btEntrarActionPerformed"/>

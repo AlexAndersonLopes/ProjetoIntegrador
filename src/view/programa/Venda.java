@@ -442,7 +442,7 @@ public class Venda extends javax.swing.JFrame {
     private void btFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarCompraActionPerformed
         janelas.irPagamento(nomes, total, listaVenda);
     }//GEN-LAST:event_btFinalizarCompraActionPerformed
-
+   
     private void btExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirItemActionPerformed
         if (linha >= 0) {
             double valorRemovido = (double) tabela.getValueAt(linha, 4);

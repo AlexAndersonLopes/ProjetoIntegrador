@@ -5,6 +5,7 @@ import dao.UsuarioDAO;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -49,11 +50,12 @@ public class RelatorioVendas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         item = new javax.swing.JComboBox<>();
+        jPanel5 = new javax.swing.JPanel();
         labelDe = new javax.swing.JLabel();
-        labelAte = new javax.swing.JLabel();
-        labelDia = new javax.swing.JLabel();
         txtDe = new javax.swing.JFormattedTextField();
+        labelAte = new javax.swing.JLabel();
         txtDia = new javax.swing.JFormattedTextField();
+        labelDia = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -64,8 +66,9 @@ public class RelatorioVendas extends javax.swing.JFrame {
         comboPagamento = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -84,11 +87,11 @@ public class RelatorioVendas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "DATA", "VENDEDOR", "VENDA  R$", "CPF CLIENTE", "PAGAMENTO", "PAGAMENTO  R$"
+                "ID", "", "DATA", "VENDEDOR", "VENDA  R$", "CPF CLIENTE", "PAGAMENTO", "PAGAMENTO  R$"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -109,21 +112,24 @@ public class RelatorioVendas extends javax.swing.JFrame {
             tabela.getColumnModel().getColumn(0).setMinWidth(0);
             tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
             tabela.getColumnModel().getColumn(0).setMaxWidth(0);
-            tabela.getColumnModel().getColumn(1).setMinWidth(120);
-            tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
-            tabela.getColumnModel().getColumn(1).setMaxWidth(120);
-            tabela.getColumnModel().getColumn(3).setMinWidth(120);
-            tabela.getColumnModel().getColumn(3).setPreferredWidth(120);
-            tabela.getColumnModel().getColumn(3).setMaxWidth(120);
-            tabela.getColumnModel().getColumn(4).setMinWidth(180);
-            tabela.getColumnModel().getColumn(4).setPreferredWidth(180);
-            tabela.getColumnModel().getColumn(4).setMaxWidth(180);
-            tabela.getColumnModel().getColumn(5).setMinWidth(180);
-            tabela.getColumnModel().getColumn(5).setPreferredWidth(180);
-            tabela.getColumnModel().getColumn(5).setMaxWidth(180);
-            tabela.getColumnModel().getColumn(6).setMinWidth(120);
-            tabela.getColumnModel().getColumn(6).setPreferredWidth(120);
-            tabela.getColumnModel().getColumn(6).setMaxWidth(120);
+            tabela.getColumnModel().getColumn(1).setMinWidth(60);
+            tabela.getColumnModel().getColumn(1).setPreferredWidth(60);
+            tabela.getColumnModel().getColumn(1).setMaxWidth(60);
+            tabela.getColumnModel().getColumn(2).setMinWidth(120);
+            tabela.getColumnModel().getColumn(2).setPreferredWidth(120);
+            tabela.getColumnModel().getColumn(2).setMaxWidth(120);
+            tabela.getColumnModel().getColumn(4).setMinWidth(120);
+            tabela.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tabela.getColumnModel().getColumn(4).setMaxWidth(120);
+            tabela.getColumnModel().getColumn(5).setMinWidth(150);
+            tabela.getColumnModel().getColumn(5).setPreferredWidth(150);
+            tabela.getColumnModel().getColumn(5).setMaxWidth(150);
+            tabela.getColumnModel().getColumn(6).setMinWidth(180);
+            tabela.getColumnModel().getColumn(6).setPreferredWidth(180);
+            tabela.getColumnModel().getColumn(6).setMaxWidth(180);
+            tabela.getColumnModel().getColumn(7).setMinWidth(120);
+            tabela.getColumnModel().getColumn(7).setPreferredWidth(120);
+            tabela.getColumnModel().getColumn(7).setMaxWidth(120);
         }
         tabela.getAccessibleContext().setAccessibleParent(jDesktopPane1);
 
@@ -146,17 +152,11 @@ public class RelatorioVendas extends javax.swing.JFrame {
             }
         });
 
+        jPanel5.setBackground(new java.awt.Color(204, 204, 255));
+
         labelDe.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         labelDe.setForeground(new java.awt.Color(0, 0, 0));
         labelDe.setText("De:");
-
-        labelAte.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        labelAte.setForeground(new java.awt.Color(0, 0, 0));
-        labelAte.setText("Até");
-
-        labelDia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        labelDia.setForeground(new java.awt.Color(0, 0, 0));
-        labelDia.setText("Dia:");
 
         try {
             txtDe.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -171,6 +171,10 @@ public class RelatorioVendas extends javax.swing.JFrame {
                 txtDeMouseClicked(evt);
             }
         });
+
+        labelAte.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        labelAte.setForeground(new java.awt.Color(0, 0, 0));
+        labelAte.setText("Até:");
 
         try {
             txtDia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -187,30 +191,59 @@ public class RelatorioVendas extends javax.swing.JFrame {
             }
         });
 
+        labelDia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        labelDia.setForeground(new java.awt.Color(0, 0, 0));
+        labelDia.setText("Dia:");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labelDe)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDe, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)
+                        .addComponent(labelAte)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addComponent(labelDia)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(labelDia)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelDe)
+                    .addComponent(txtDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelAte)
+                    .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(labelDe)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDe, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(labelAte)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(labelDia))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(32, 32, 32)
                         .addComponent(jLabel1)
-                        .addGap(90, 90, 90)
-                        .addComponent(item, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addGap(58, 58, 58)
+                        .addComponent(item, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,15 +252,9 @@ public class RelatorioVendas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(item, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelDia)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDe)
-                    .addComponent(labelAte)
-                    .addComponent(txtDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         item.getAccessibleContext().setAccessibleDescription("");
@@ -316,7 +343,7 @@ public class RelatorioVendas extends javax.swing.JFrame {
                 .addGap(69, 69, 69))
         );
 
-        jLabel5.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Clique na Venda para ver o Carrinho de Produtos Vendidos");
 
@@ -325,12 +352,32 @@ public class RelatorioVendas extends javax.swing.JFrame {
         jPanel6.setMaximumSize(new java.awt.Dimension(388, 130));
         jPanel6.setMinimumSize(new java.awt.Dimension(388, 130));
 
+        txtTotal.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
+        txtTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Total R$:");
+        jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        txtTotal.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
-        txtTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -338,18 +385,18 @@ public class RelatorioVendas extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -380,7 +427,7 @@ public class RelatorioVendas extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 909, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
@@ -390,7 +437,7 @@ public class RelatorioVendas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
-                .addGap(317, 317, 317))
+                .addGap(267, 267, 267))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,7 +461,7 @@ public class RelatorioVendas extends javax.swing.JFrame {
                         .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -509,6 +556,7 @@ public class RelatorioVendas extends javax.swing.JFrame {
         String usua = comboUsuarios.getSelectedItem().toString();
         mostrarTabela(dataInicial, dataFinal, usua, tipoPagamento);
         BigDecimal total = dao.obterTotalVenda(dataInicial, dataFinal, usua, tipoPagamento);
+        total = total.setScale(2, RoundingMode.HALF_UP);
         txtTotal.setText(String.valueOf(total));
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -537,10 +585,13 @@ public class RelatorioVendas extends javax.swing.JFrame {
         DefaultTableModel tab = (DefaultTableModel) tabela.getModel();
         tab.setNumRows(0);
 
+        int n = 0;
         for (RelatorioVenda a : lista) {
             String dataFormatada = a.getData().format(dtf);
+            n++;
             tab.addRow(new Object[]{
                 a.getId(),
+                n,
                 dataFormatada,
                 a.getVendedor(),
                 a.getVendaTotal(),
@@ -552,8 +603,8 @@ public class RelatorioVendas extends javax.swing.JFrame {
     }
 
     public void mostrarComboUsuario() {
-        UsuarioDAO dao = new UsuarioDAO();
-        List<Usuario> usu = dao.procurarTodosUsuarios();
+        UsuarioDAO udao = new UsuarioDAO();
+        List<Usuario> usu = udao.procurarTodosUsuarios();
         List<String> nomesUsuarios = new ArrayList<>();
 
         nomesUsuarios.add("Todos");
@@ -612,7 +663,6 @@ public class RelatorioVendas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboPagamento;
-    private javax.swing.JComboBox<String> comboPagamento1;
     private javax.swing.JComboBox<String> comboUsuarios;
     private javax.swing.JComboBox<String> item;
     private javax.swing.JButton jButton1;
@@ -622,10 +672,10 @@ public class RelatorioVendas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;

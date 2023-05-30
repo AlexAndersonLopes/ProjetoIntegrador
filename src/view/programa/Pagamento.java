@@ -6,6 +6,7 @@ import dao.TipoPagamentoDAO;
 import dao.UsuarioDAO;
 import dao.VendaProdutosDAO;
 import dao.VendasDAO;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,9 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.FechamentosCaixa;
 import model.Produto;
@@ -35,6 +39,7 @@ public class Pagamento extends javax.swing.JFrame {
     int linha = -1;
     private String nomes;
     private Janelas janelas = new Janelas();
+    String cpf;
 
     public Usuario getUsuario() {
         return usuario;
@@ -60,6 +65,7 @@ public class Pagamento extends javax.swing.JFrame {
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
         txtCpf.requestFocus();
+        cpfCliente();
     }
 
     public Pagamento(String nome, double total, DefaultTableModel lista) {
@@ -70,6 +76,7 @@ public class Pagamento extends javax.swing.JFrame {
         this.total = total;
         itemVenda = lista;
         txtCpf.requestFocus();
+        cpfCliente();
     }
 
     @SuppressWarnings("unchecked")
@@ -325,11 +332,6 @@ public class Pagamento extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         txtCpf.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        txtCpf.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCpfKeyPressed(evt);
-            }
-        });
 
         jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -477,6 +479,27 @@ public class Pagamento extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void cpfCliente() {
+        JTextField textField = new JTextField();
+        Font font = new Font(textField.getFont().getName(), Font.PLAIN, 18);
+        textField.setFont(font);
+
+        Object[] message = {
+            "CPF do Cliente:", textField
+        };
+
+        JOptionPane optionPane = new JOptionPane(message, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION, null, new Object[]{"OK"}, null);
+        optionPane.setFont(font);
+        JDialog dialog = optionPane.createDialog("Informe o CPF");
+        dialog.setVisible(true);
+
+        if (optionPane.getValue() instanceof String && optionPane.getValue().equals("OK")) {
+            String cpf = textField.getText();
+            txtCpf.setText(cpf);
+            txtCpf.setEditable(false);
+        }
+    }
+
     private void btFinalizarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarPagamentoActionPerformed
         if (soma >= total) {
             Vendas vendas = new Vendas();
@@ -517,15 +540,15 @@ public class Pagamento extends javax.swing.JFrame {
 
                 tDAO.tipoPagamento(tipo);
             }
-            
+
             for (int i = 0; i < listaPagamento.getRowCount(); i++) {
                 FechamentoCaixaDAO fDAO = new FechamentoCaixaDAO();
                 FechamentosCaixa caixa = new FechamentosCaixa();
-                
+
                 caixa.setDescricao(listaPagamento.getValueAt(i, 0).toString());
                 caixa.setValor(Double.parseDouble(listaPagamento.getValueAt(i, 1).toString()));
                 caixa.setUsuario(usuario);
-                
+
                 fDAO.cadastrarFechamentoCaixa(caixa);
             }
 
@@ -533,11 +556,12 @@ public class Pagamento extends javax.swing.JFrame {
             janelas.irVenda3(nomes);
 
         } else {
-            if(troco == 0){
+            if (troco == 0) {
                 Mensagens.mensagemAlerta("Pagamento incompleto, falta R$ " + total);
-            }if(troco > 0){
+            }
+            if (troco > 0) {
                 Mensagens.mensagemAlerta("Pagamento incompleto, falta R$ " + troco);
-            }       
+            }
         }
     }//GEN-LAST:event_btFinalizarPagamentoActionPerformed
 
@@ -644,12 +668,6 @@ public class Pagamento extends javax.swing.JFrame {
     private void voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarActionPerformed
         this.dispose();
     }//GEN-LAST:event_voltarActionPerformed
-
-    private void txtCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txtCpf.setEditable(false);
-        }
-    }//GEN-LAST:event_txtCpfKeyPressed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
