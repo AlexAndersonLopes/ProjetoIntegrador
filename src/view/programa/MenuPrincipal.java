@@ -4,9 +4,13 @@ import util.Janelas;
 import dao.UsuarioDAO;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import model.Usuario;
 
@@ -39,6 +43,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
         timer = new Timer(1000, e -> mostrarData());
         timer.start();
         nomes = usuario.getUsuario();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmarSaida();
+            }
+        });
+    }
+
+    private void confirmarSaida() {
+        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            dispose();
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -418,7 +437,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("windows".equals(info.getName())) {
+                if ("Ninbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

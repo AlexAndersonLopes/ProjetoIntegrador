@@ -6,10 +6,14 @@ import dao.UsuarioDAO;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 import model.Usuario;
@@ -43,6 +47,12 @@ public class Venda extends javax.swing.JFrame {
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
         txtCodigoBarras.requestFocus();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmarSaida();
+            }
+        });
     }
 
     public Venda(String nome, String codigo) {
@@ -53,6 +63,12 @@ public class Venda extends javax.swing.JFrame {
         txtCodigoBarras.setText(codigos);
         KeyEvent evt = new KeyEvent(txtCodigoBarras, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, '\n');
         txtCodigoBarrasKeyPressed(evt);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmarSaida();
+            }
+        });
     }
 
     public void atualizarCarrinho(String nome, String codigo) {
@@ -63,6 +79,15 @@ public class Venda extends javax.swing.JFrame {
 
         KeyEvent evt = new KeyEvent(txtCodigoBarras, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, '\n');
         txtCodigoBarrasKeyPressed(evt);
+    }
+    
+    private void confirmarSaida() {
+        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            dispose();
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
     }
 
     @SuppressWarnings("unchecked")

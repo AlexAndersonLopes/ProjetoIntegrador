@@ -4,6 +4,8 @@ import dao.RelatoriosDAO;
 import dao.UsuarioDAO;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.RelatorioVenda;
 import model.Usuario;
@@ -30,6 +34,21 @@ public class RelatorioVendas extends javax.swing.JFrame {
         initComponents();
         limparTela();
         mostrarComboUsuario();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmarSaida();
+            }
+        });
+    }
+    
+    private void confirmarSaida() {
+        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            dispose();
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -142,7 +161,9 @@ public class RelatorioVendas extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Data:");
 
+        item.setBackground(new java.awt.Color(255, 255, 255));
         item.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        item.setForeground(new java.awt.Color(0, 0, 0));
         item.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hoje", "Esta Semana", "Este Mês", "Este Ano", "Definir Dia", "De () à ()" }));
         item.setSelectedIndex(-1);
         item.setToolTipText("Data");
@@ -240,8 +261,8 @@ public class RelatorioVendas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jLabel1)
-                        .addGap(58, 58, 58)
-                        .addComponent(item, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
+                        .addComponent(item, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -287,7 +308,10 @@ public class RelatorioVendas extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Operador:");
 
+        comboUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         comboUsuarios.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        comboUsuarios.setForeground(new java.awt.Color(0, 0, 0));
+        comboUsuarios.setMaximumRowCount(10);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -297,7 +321,7 @@ public class RelatorioVendas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(56, 56, 56)
-                .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -319,7 +343,9 @@ public class RelatorioVendas extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Pagamento:");
 
+        comboPagamento.setBackground(new java.awt.Color(255, 255, 255));
         comboPagamento.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        comboPagamento.setForeground(new java.awt.Color(0, 0, 0));
         comboPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Dinheiro", "Débito", "Crédito", "PIX" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -330,7 +356,7 @@ public class RelatorioVendas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addGap(43, 43, 43)
-                .addComponent(comboPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(

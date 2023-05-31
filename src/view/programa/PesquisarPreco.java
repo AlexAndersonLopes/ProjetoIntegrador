@@ -4,7 +4,11 @@ import util.Janelas;
 import dao.ProdutoDAO;
 import dao.UsuarioDAO;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 import model.Usuario;
@@ -32,6 +36,21 @@ public class PesquisarPreco extends javax.swing.JFrame {
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
         txtPesquisarCodigoBarras.requestFocus();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmarSaida();
+            }
+        });
+    }
+    
+    private void confirmarSaida() {
+        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            dispose();
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
     }
 
     @SuppressWarnings("unchecked")

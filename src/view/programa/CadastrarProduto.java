@@ -4,8 +4,12 @@ import dao.ProdutoDAO;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 import util.Mensagens;
@@ -14,6 +18,21 @@ public class CadastrarProduto extends javax.swing.JFrame {
 
     public CadastrarProduto() {
         initComponents();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmarSaida();
+            }
+        });
+    }
+
+    private void confirmarSaida() {
+        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            dispose();
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -246,7 +265,7 @@ public class CadastrarProduto extends javax.swing.JFrame {
                             if (!txtQuantidade.getText().isEmpty()) {
                                 if (!txtCodigoBarras.getText().isEmpty()) {
                                     String precoStr = txtPreco.getText().replace(",", ".");
-                                    
+
                                     Produto pro = new Produto();
                                     pro.setProduto(txtProduto.getText());
                                     pro.setMarca(txtMarca.getText());

@@ -6,19 +6,30 @@ import dao.TipoPagamentoDAO;
 import dao.UsuarioDAO;
 import dao.VendaProdutosDAO;
 import dao.VendasDAO;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 import model.FechamentosCaixa;
 import model.Produto;
 import model.TipoPagamento;
@@ -39,7 +50,7 @@ public class Pagamento extends javax.swing.JFrame {
     int linha = -1;
     private String nomes;
     private Janelas janelas = new Janelas();
-    String cpf;
+    String cpf, senha;
 
     public Usuario getUsuario() {
         return usuario;
@@ -64,19 +75,33 @@ public class Pagamento extends javax.swing.JFrame {
         initComponents();
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
-        txtCpf.requestFocus();
+        senha = usuario.getSenha();
         cpfCliente();
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmarSaida();
+            }
+        });
     }
 
     public Pagamento(String nome, double total, DefaultTableModel lista) {
         initComponents();
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
+        senha = usuario.getSenha();
         mostrarTotal.setText(String.valueOf(total));
         this.total = total;
         itemVenda = lista;
-        txtCpf.requestFocus();
         cpfCliente();
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmarSaida();
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -331,6 +356,7 @@ public class Pagamento extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtCpf.setToolTipText("");
         txtCpf.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -479,15 +505,88 @@ public class Pagamento extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void confirmarSaida() {
+        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            dispose();
+        } else {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
+
+    private boolean confirmarExcluirPagamento() {
+        JPasswordField passwordField = new JPasswordField();
+        JOptionPane optionPane = new JOptionPane(passwordField, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+        JDialog dialog = optionPane.createDialog(null, "Digite a senha");
+
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                passwordField.requestFocusInWindow();
+            }
+        });
+        dialog.setVisible(true);
+
+        if (optionPane.getValue() instanceof Integer && ((Integer) optionPane.getValue()).equals(JOptionPane.OK_OPTION)) {
+            char[] password = passwordField.getPassword();
+            String senhaDigitada = new String(password);
+            String senhaCriptografada = criptografarMD5(senhaDigitada);
+            
+            if(senha.equals(senhaCriptografada)){
+            return senha.equals(senhaCriptografada);
+            
+            }else{
+                Mensagens.mensagemErro("Senha Inválida");
+                return false;
+            }
+        } else {
+            Mensagens.mensagemAlerta("O Pagamento NÃO foi excluído");
+            return false;
+        }
+    }
+
+    private String criptografarMD5(String senha) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] senhaBytes = senha.getBytes();
+            byte[] hashBytes = md.digest(senhaBytes);
+            StringBuilder sb = new StringBuilder();
+
+            for (byte b : hashBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            // Tratar a exceção adequada aqui
+            Mensagens.mensagemErro("Erro");
+            return null;
+        }
+    }
+
     public void cpfCliente() {
         JTextField textField = new JTextField();
         Font font = new Font(textField.getFont().getName(), Font.PLAIN, 18);
         textField.setFont(font);
+        // Limitar a entrada a 11 caracteres
+        ((AbstractDocument) textField.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                if (fb.getDocument().getLength() + string.length() <= 11) {
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
 
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if (fb.getDocument().getLength() - length + text.length() <= 11) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
         Object[] message = {
             "CPF do Cliente:", textField
         };
-
         JOptionPane optionPane = new JOptionPane(message, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION, null, new Object[]{"OK"}, null);
         optionPane.setFont(font);
         JDialog dialog = optionPane.createDialog("Informe o CPF");
@@ -595,7 +694,6 @@ public class Pagamento extends javax.swing.JFrame {
             txtValor.setText(String.valueOf(df.format(valor)));
             txtValor.requestFocus();
         }
-
     }
 
     private void txtValorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorKeyPressed
@@ -609,12 +707,13 @@ public class Pagamento extends javax.swing.JFrame {
                         String formattedTroco = df.format(troco);
                         mostrarTroco.setText(formattedTroco);
                         evt.consume();
-
-                        if (tipoPagamento.getText().equals("Dinheiro") /*&& valor > total || valor > troco*/) {
-                            if (valor > total || valor > troco) {
-                                double val;
-                                val = valor - troco;
-                                valor = val;
+                        if (tipoPagamento.getText().equals("Dinheiro")) {
+                            if (valor > total) {
+                                if (valor > troco && troco != 0) {
+                                    double val;
+                                    val = valor - troco;
+                                    valor = val;
+                                }
                             }
                         }
 
@@ -624,12 +723,12 @@ public class Pagamento extends javax.swing.JFrame {
                             troco = BigDecimal.valueOf(Math.abs(total - soma)).setScale(2, RoundingMode.HALF_UP).doubleValue();
                             mostrarTroco.setText(df.format(troco));
                             txtValor.setText("");
-
                         } else {
                             listaPagamento = (DefaultTableModel) tabelaPagamento.getModel();
                             listaPagamento.addRow(new Object[]{
                                 descricao,
                                 BigDecimal.valueOf(valor).setScale(2, RoundingMode.HALF_UP).doubleValue()});
+                            txtValor.setText("");
                         }
                     }
                 }
@@ -653,13 +752,18 @@ public class Pagamento extends javax.swing.JFrame {
 
     private void btExcluirLinhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirLinhaActionPerformed
         if (linha >= 0) {
-            double valorExcluido = (Double) listaPagamento.getValueAt(linha, 1);
-            soma -= valorExcluido;
-            listaPagamento.removeRow(linha);
-            listaPagamento.fireTableDataChanged();
-            valor = Math.abs(soma - total);
-            mostrarTroco.setText(df.format(valor));
-            linha = -1;
+            if (confirmarExcluirPagamento()) {
+                double valorExcluido = (Double) listaPagamento.getValueAt(linha, 1);
+                soma -= valorExcluido;
+                listaPagamento.removeRow(linha);
+                listaPagamento.fireTableDataChanged();
+                valor = Math.abs(soma - total);
+                mostrarTroco.setText(df.format(valor));
+                linha = -1;
+                Mensagens.mensagemExito("Pagamento apagado com Sucesso!");
+            } else {
+                //Mensagens.mensagemErro("Senha Incorreta");
+            }
         } else {
             Mensagens.mensagemErro("Selecione o pagamento que deseja excluír");
         }
