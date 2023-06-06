@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/alex9/OneDrive/Documentos/NetBeansProjects/ProjetoIntegrador/src/view/programa/Venda.java</file>
-            <file>file:/C:/Users/alex9/OneDrive/Documentos/NetBeansProjects/ProjetoIntegrador/src/view/programa/Pagamento.java</file>
+            <file>file:/C:/Users/alex9/OneDrive/Documentos/NetBeansProjects/ProjetoIntegrador/src/view/programa/Devolucao.java</file>
+            <file>file:/C:/Users/alex9/OneDrive/Documentos/NetBeansProjects/ProjetoIntegrador/src/dao/RelatoriosDAO.java</file>
+            <file>file:/C:/Users/alex9/OneDrive/Documentos/NetBeansProjects/ProjetoIntegrador/src/view/relatorios/RelatorioVendas.java</file>
+            <file>file:/C:/Users/alex9/OneDrive/Documentos/NetBeansProjects/ProjetoIntegrador/src/dao/VendaProdutosDAO.java</file>
+            <file>file:/C:/Users/alex9/OneDrive/Documentos/NetBeansProjects/ProjetoIntegrador/src/util/Janelas.java</file>
         </group>
     </open-files>
 </project-private>

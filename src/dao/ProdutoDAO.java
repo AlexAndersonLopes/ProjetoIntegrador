@@ -38,7 +38,7 @@ public class ProdutoDAO {
             {
             }
         } catch (SQLException e) {
-            Mensagens.mensagemErro("Produto não Cadastrado no BD");           
+            Mensagens.mensagemErro("Produto não Cadastrado no BD");
         }
     }
 
@@ -183,14 +183,15 @@ public class ProdutoDAO {
                 pro.setQuantidade(rs.getInt("quantidade"));
             }
 
-            if (pro.getCodigoBarras().isEmpty()) {
+            if (pro.getCodigoBarras() == null) {
+                Mensagens.mensagemErro("Produto não encontrado");
                 return null;
             } else {
                 return pro;
             }
 
         } catch (SQLException e) {
-            Mensagens.mensagemErro("Produto não encontrado");
+            Mensagens.mensagemErro("Erro ao tentar acessar o Banco de Dados");
             return null;
         }
     }

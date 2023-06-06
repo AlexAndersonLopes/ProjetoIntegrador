@@ -2,11 +2,7 @@ package view.relatorios;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import util.Janelas;
 
 public class MenuRelatorios extends javax.swing.JFrame {
@@ -14,23 +10,8 @@ public class MenuRelatorios extends javax.swing.JFrame {
     private Janelas janelas = new Janelas();
 
     public MenuRelatorios() {
-        initComponents();
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                confirmarSaida();
-            }
-        });
-    }
-
-    private void confirmarSaida() {
-        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-            dispose();
-        } else {
-            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        }
-    }
+        initComponents();     
+    }  
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

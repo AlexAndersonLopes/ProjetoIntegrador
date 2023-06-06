@@ -6,10 +6,10 @@ import dao.TipoPagamentoDAO;
 import dao.UsuarioDAO;
 import dao.VendaProdutosDAO;
 import dao.VendasDAO;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -77,7 +77,6 @@ public class Pagamento extends javax.swing.JFrame {
         nomes = usuario.getUsuario();
         senha = usuario.getSenha();
         cpfCliente();
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -95,7 +94,6 @@ public class Pagamento extends javax.swing.JFrame {
         this.total = total;
         itemVenda = lista;
         cpfCliente();
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -506,11 +504,11 @@ public class Pagamento extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void confirmarSaida() {
-        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-            dispose();
-        } else {
+        if (listaPagamento != null) {
+            JOptionPane.showMessageDialog(null, "Por favor, conclua o pagamento antes de Sair!");
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        } else {
+            dispose();
         }
     }
 
@@ -531,11 +529,11 @@ public class Pagamento extends javax.swing.JFrame {
             char[] password = passwordField.getPassword();
             String senhaDigitada = new String(password);
             String senhaCriptografada = criptografarMD5(senhaDigitada);
-            
-            if(senha.equals(senhaCriptografada)){
-            return senha.equals(senhaCriptografada);
-            
-            }else{
+
+            if (senha.equals(senhaCriptografada)) {
+                return senha.equals(senhaCriptografada);
+
+            } else {
                 Mensagens.mensagemErro("Senha Inválida");
                 return false;
             }
@@ -558,7 +556,6 @@ public class Pagamento extends javax.swing.JFrame {
             return sb.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            // Tratar a exceção adequada aqui
             Mensagens.mensagemErro("Erro");
             return null;
         }
@@ -590,11 +587,15 @@ public class Pagamento extends javax.swing.JFrame {
         JOptionPane optionPane = new JOptionPane(message, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION, null, new Object[]{"OK"}, null);
         optionPane.setFont(font);
         JDialog dialog = optionPane.createDialog("Informe o CPF");
+
+        textField.addActionListener((ActionEvent e) -> {
+            optionPane.setValue("OK");
+        });
         dialog.setVisible(true);
 
         if (optionPane.getValue() instanceof String && optionPane.getValue().equals("OK")) {
-            String cpf = textField.getText();
-            txtCpf.setText(cpf);
+            String cpfs = textField.getText();
+            txtCpf.setText(cpfs);
             txtCpf.setEditable(false);
         }
     }
@@ -761,8 +762,6 @@ public class Pagamento extends javax.swing.JFrame {
                 mostrarTroco.setText(df.format(valor));
                 linha = -1;
                 Mensagens.mensagemExito("Pagamento apagado com Sucesso!");
-            } else {
-                //Mensagens.mensagemErro("Senha Incorreta");
             }
         } else {
             Mensagens.mensagemErro("Selecione o pagamento que deseja excluír");
@@ -770,7 +769,7 @@ public class Pagamento extends javax.swing.JFrame {
     }//GEN-LAST:event_btExcluirLinhaActionPerformed
 
     private void voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarActionPerformed
-        this.dispose();
+        confirmarSaida();
     }//GEN-LAST:event_voltarActionPerformed
 
     public static void main(String args[]) {

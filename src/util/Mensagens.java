@@ -1,6 +1,5 @@
 package util;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Mensagens {

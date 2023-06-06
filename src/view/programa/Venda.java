@@ -10,10 +10,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 import model.Usuario;
@@ -29,7 +33,7 @@ public class Venda extends javax.swing.JFrame {
     int qtd = 0, item = 0, linha = -1;
     private DecimalFormat df = new DecimalFormat("#.##");
     DefaultTableModel listaVenda;
-    private String nomes, codigos;
+    private String nomes, codigos, senha;
     private static Janelas janelas = new Janelas();
 
     public Usuario getUsuario() {
@@ -46,6 +50,7 @@ public class Venda extends javax.swing.JFrame {
         initComponents();
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
+        senha = usuario.getSenha();
         txtCodigoBarras.requestFocus();
         addWindowListener(new WindowAdapter() {
             @Override
@@ -59,6 +64,7 @@ public class Venda extends javax.swing.JFrame {
         initComponents();
         usuario = mostrarFuncionario(nome);
         nomes = usuario.getUsuario();
+        senha = usuario.getSenha();
         codigos = codigo;
         txtCodigoBarras.setText(codigos);
         KeyEvent evt = new KeyEvent(txtCodigoBarras, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_ENTER, '\n');
@@ -81,13 +87,13 @@ public class Venda extends javax.swing.JFrame {
         txtCodigoBarrasKeyPressed(evt);
     }
     
-    private void confirmarSaida() {
-        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-            dispose();
-        } else {
+    private void confirmarSaida() {        
+        if(listaVenda != null){
+            JOptionPane.showMessageDialog(null, "Limpe a Lista de Produtos para Saír!");
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        }
+        } else{
+            dispose();    
+        }    
     }
 
     @SuppressWarnings("unchecked")
@@ -464,12 +470,62 @@ public class Venda extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean confirmarExcluirPagamento() {
+        JPasswordField passwordField = new JPasswordField();
+        JOptionPane optionPane = new JOptionPane(passwordField, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+        JDialog dialog = optionPane.createDialog(null, "Digite a senha");
+
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                passwordField.requestFocusInWindow();
+            }
+        });
+        dialog.setVisible(true);
+
+        if (optionPane.getValue() instanceof Integer && ((Integer) optionPane.getValue()).equals(JOptionPane.OK_OPTION)) {
+            char[] password = passwordField.getPassword();
+            String senhaDigitada = new String(password);
+            String senhaCriptografada = criptografarMD5(senhaDigitada);
+            
+            if(senha.equals(senhaCriptografada)){
+            return senha.equals(senhaCriptografada);
+            
+            }else{
+                Mensagens.mensagemErro("Senha Inválida");
+                return false;
+            }
+        } else {
+            Mensagens.mensagemAlerta("O Produto NÃO foi excluído");
+            return false;
+        }
+    }
+
+    private String criptografarMD5(String senha) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] senhaBytes = senha.getBytes();
+            byte[] hashBytes = md.digest(senhaBytes);
+            StringBuilder sb = new StringBuilder();
+
+            for (byte b : hashBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            Mensagens.mensagemErro("Erro");
+            return null;
+        }
+    }
+    
     private void btFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarCompraActionPerformed
         janelas.irPagamento(nomes, total, listaVenda);
     }//GEN-LAST:event_btFinalizarCompraActionPerformed
    
     private void btExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirItemActionPerformed
         if (linha >= 0) {
+            if (confirmarExcluirPagamento()) {
             double valorRemovido = (double) tabela.getValueAt(linha, 4);
             total -= valorRemovido;
             mostrarTotal.setText(df.format(total));
@@ -481,6 +537,7 @@ public class Venda extends javax.swing.JFrame {
                 listaVenda.setValueAt(item, i, 0);
                 item++;
             }
+            } 
             item = item - 1;
         } else {
             Mensagens.mensagemErro("Selecione uma linha para ser Excluída!");
@@ -576,7 +633,7 @@ public class Venda extends javax.swing.JFrame {
         int lastRow = tabela.getRowCount() - 1;
         int lastCol = tabela.getColumnCount() - 1;
         tabela.changeSelection(lastRow, lastCol, false, false);
-
+            
     }
 
     private void limparTela() {

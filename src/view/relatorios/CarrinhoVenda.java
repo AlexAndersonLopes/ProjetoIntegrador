@@ -23,23 +23,9 @@ public class CarrinhoVenda extends javax.swing.JFrame {
     public CarrinhoVenda(int a) {
         initComponents();
         numero = a;
-        mostrarTabela(numero);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                confirmarSaida();
-            }
-        });
+        mostrarTabela(numero);        
     }
-    
-    private void confirmarSaida() {
-        int option = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-            dispose();
-        } else {
-            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        }
-    }
+       
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
